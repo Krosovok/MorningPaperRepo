@@ -1,0 +1,1 @@
+Needed for testing: alternative application starting point and code work testing without other parts.

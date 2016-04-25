@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MornigPaper.Presentation.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,9 @@ namespace MornigPaper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form());
+            Application.Run(new MainForm());
+            // Как завещал великий Ленин:
+            Test.Test.Test();
         }
     }
 }

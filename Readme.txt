@@ -33,4 +33,15 @@ write to some class (with interface{
 
 7) We need to connect to RSS's we need.
 	But someone have to Google it, I suppose?
+
+
+RULES:
+1) You comment the code. Or I will do it.
+	It is necessary for at least XML comments of classes and methods that supposed to be used in other part of program.
+2) ? We work through GitHub issues stating the work we need to do and helping to assign tasks ?
+3) You at least try to write a code that is... well... not like we do all the time, ok? 
+	Use abstraction, divide tasks into subtasks...
+4) We take into account each other's opinion, but not depend on it.
+	Where you have some troubles or not sure about something  just ask others. ^_^
+5) You read rules and other such things to the end)
 	

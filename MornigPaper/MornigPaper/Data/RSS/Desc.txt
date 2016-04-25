@@ -1,0 +1,1 @@
+Classes for stroring RSS data.

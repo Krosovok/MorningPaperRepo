@@ -44,8 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\HTML\Article.cs" />
+    <Compile Include="Data\HTML\IArticleElement.cs" />
+    <Compile Include="Data\RSS\Rss.cs" />
+    <Compile Include="Logic\HTML\HtmlParser.cs" />
+    <Compile Include="Logic\LocalDataStoring\SomeClassToWorkWithStoredInformation_RENAME_.cs" />
+    <Compile Include="Logic\PDF\PdfWriter.cs" />
+    <Compile Include="Logic\Search\WebPagesOpener.cs" />
+    <Compile Include="Presentation\Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\Test.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -69,14 +83,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\HTML\" />
-    <Folder Include="Data\RSS\" />
-    <Folder Include="Logic\HTML\" />
-    <Folder Include="Logic\LocalDataStoring\" />
-    <Folder Include="Logic\PDF\" />
-    <Folder Include="Logic\Search\" />
     <Folder Include="Presentation\Controls\" />
-    <Folder Include="Presentation\Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
