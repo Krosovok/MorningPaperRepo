@@ -47,6 +47,7 @@
     <Compile Include="Data\HTML\Article.cs" />
     <Compile Include="Data\HTML\IArticleElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
+    <Compile Include="Data\RSS\RssParse.cs" />
     <Compile Include="Logic\HTML\HtmlParser.cs" />
     <Compile Include="Logic\LocalDataStoring\SomeClassToWorkWithStoredInformation_RENAME_.cs" />
     <Compile Include="Logic\PDF\PdfWriter.cs" />
