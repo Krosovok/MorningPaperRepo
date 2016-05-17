@@ -39,7 +39,7 @@ namespace MornigPaper.Logic.PDF
                 this.Source = new Uri(src);
                 this.Content = Image.GetInstance(this.Source);
             }
-            catch(HtmlWebException e)
+            catch(HtmlWebException)
             {
                 this.Content = Image.GetInstance(new Uri(@"http://www.westliguria.net/wp-content/uploads/2013/01/image-not-found.jpg")); ; 
             }
@@ -52,12 +52,7 @@ namespace MornigPaper.Logic.PDF
         /// <param name="pdf"> A document to add to.</param>
         public void addToPdf(Document pdf)
         {
-            if(!pdf.IsOpen())
-            {
-                pdf.Open();
-            }
-
-            pdf.Add(Image.GetInstance(this.Content));
+           pdf.Add(Image.GetInstance(this.Content));
         }
 
         /// <summary>

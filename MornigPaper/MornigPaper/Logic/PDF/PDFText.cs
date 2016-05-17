@@ -66,12 +66,7 @@ namespace MornigPaper.Logic.PDF
         /// <param name="pdf"> A document to add to.</param>
         public void addToPdf(Document pdf)
         {
-            if(!pdf.IsOpen())
-            {
-                pdf.Open();
-            }
-            Paragraph p = new Paragraph(this.Content, this.Font);
-             pdf.Add(p);
+            
              if (this.Type == ElementType.Phrase)
              {
                  pdf.Add(new Phrase(this.Content, this.Font));
@@ -86,6 +81,11 @@ namespace MornigPaper.Logic.PDF
                  pdf.Add(new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size + 3)));
              }
             
+        }
+
+        public override string ToString()
+        {
+            return this.Content + " " + this.Type.ToString();
         }
     }
 }

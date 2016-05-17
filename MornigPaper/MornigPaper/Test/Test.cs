@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MornigPaper.Logic.PDF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace MornigPaper.Test
 
         private static void Test1()
         {
+            Pdf.test();
             // Some code to inspect here.
         }
 

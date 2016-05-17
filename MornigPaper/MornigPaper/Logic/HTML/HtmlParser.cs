@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MornigPaper.Exceptions;
 
 namespace MornigPaper.Logic.HTML
 {
@@ -16,20 +17,41 @@ namespace MornigPaper.Logic.HTML
     /// </summary>
     class HtmlParser
     {
-        public static List<HtmlNode> filterHtml(string url, params string[] xPath)
+        private IEnumerable<HtmlNode> nodes;
+        private IEnumerable<string> xPathExclusions;
+
+        public HtmlParser(string url, IEnumerable<string> xPaths, IEnumerable<string> xPathExclusions)
         {
-
             HtmlWeb w = new HtmlWeb();
-            HtmlDocument doc = w.Load(url);
-            List<HtmlNode> res = new List<HtmlNode>();
-
-            IEnumerable<HtmlNode> nodes = doc.DocumentNode.Descendants();
-            return nodes.Where(n => xPath.Contains(n.XPath)).ToList();
+            HtmlDocument doc;
+            try
+            {
+                doc = w.Load(url);
+            }
+            catch(HtmlWebException e)
+            {
+                throw new InternetAccessException("URL was not loaded.", e);
+            }
+            
+            this.xPathExclusions = new List<string>(xPathExclusions);
+            nodes = doc.DocumentNode.Descendants()
+                .Where(n => xPaths.Contains(n.XPath))
+                .ToList();
         }
 
-        public static List<IArticleElement> getElements(HtmlNode node)
+        public IEnumerable<IArticleElement> GetElements()
+        {
+            return nodes.SelectMany(node => GetElements(node));
+        }
+
+        private IEnumerable<IArticleElement> GetElements(HtmlNode node)
         {
             List<IArticleElement> res = new List<IArticleElement>();
+            if(xPathExclusions.Contains(node.XPath))
+            {
+                return new List<IArticleElement>();
+            }
+
             if (node.OuterHtml.StartsWith("<p"))
             {
                 res.Add(new PDFText(node, ElementType.Paragraph));
@@ -46,7 +68,7 @@ namespace MornigPaper.Logic.HTML
             {
                 foreach (HtmlNode n in node.ChildNodes)
                 {
-                    res.AddRange(getElements(n));
+                    res.AddRange(GetElements(n));
                 }
             }
             return res;
