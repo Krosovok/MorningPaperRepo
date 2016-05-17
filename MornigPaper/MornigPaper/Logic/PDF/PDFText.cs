@@ -17,7 +17,7 @@ namespace MornigPaper.Logic.PDF
     /// <summary>
     /// Represents a type of a text element e.g. a phrase or a paragraph.
     /// </summary>
-    enum ElementType { Phrase, Paragraph, Header }
+    enum ElementType { Phrase, Paragraph, Header, Footer }
 
     /// <summary>
     /// Element's allignmen in the document. 
@@ -31,8 +31,7 @@ namespace MornigPaper.Logic.PDF
     {
         public String Content { get; set; }
         public Font Font { get; set; }
-        public ElementType Type { get; set; } // ??
-        public int Allignment { get; set; }
+        public ElementType Type { get; set; } 
 
         /// <summary>
         /// The default font is Times New Roman, 14pt.
@@ -55,7 +54,7 @@ namespace MornigPaper.Logic.PDF
 
         public PDFText(HtmlNode node, ElementType type, Font font)
         {
-            this.Content = node.InnerText;
+            this.Content = node.InnerText.Trim();
             this.Font = new Font(font);
             this.Type = type;
         }
@@ -66,12 +65,10 @@ namespace MornigPaper.Logic.PDF
         /// <param name="pdf"> A document to add to.</param>
         public void addToPdf(Document pdf)
         {
-            
              if (this.Type == ElementType.Phrase)
              {
                  pdf.Add(new Phrase(this.Content, this.Font));
              }
-
              else if(this.Type == ElementType.Paragraph)
              {
                  pdf.Add(new Paragraph(this.Content, this.Font));
@@ -80,12 +77,16 @@ namespace MornigPaper.Logic.PDF
              {
                  pdf.Add(new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size + 3)));
              }
+             else if(this.Type == ElementType.Footer)
+             {
+                 pdf.Add(new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size - 3, Font.ITALIC)));
+             }
             
         }
 
         public override string ToString()
         {
-            return this.Content + " " + this.Type.ToString();
+            return this.Content + ". " + this.Type.ToString();
         }
     }
 }

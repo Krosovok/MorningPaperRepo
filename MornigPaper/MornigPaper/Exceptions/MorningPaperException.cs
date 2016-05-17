@@ -9,6 +9,8 @@ namespace MornigPaper.Exceptions
 {
     abstract class MorningPaperException: Exception
     {
-        public MorningPaperException(string message, Exception e) : base(message, e) { } 
+        public MorningPaperException(string message, Exception e) : base(message, e) { }
+
+        public MorningPaperException(string message) : base(message) { } 
     }
 }

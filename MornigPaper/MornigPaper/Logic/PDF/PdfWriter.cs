@@ -31,29 +31,38 @@ namespace MornigPaper.Logic.PDF
     {
         public static void test()
         {
-            string headerXPath = "/html[1]/body[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]";
-            string articleXPath = "/html[1]/body[1]/div[3]/div[1]/div[3]/div[3]/div[1]/div[1]/div[2]/div[1]/article[1]/div[3]/div[2]"; // - 
-           // string imageXPath = "/html[1]/body[1]/div[3]/div[1]/div[3]/div[3]/div[1]/div[1]/div[2]/div[1]/article[1]/div[3]/div[2]/figure[1]/div[1]/span[1]";
-            //string xPathExclusin = "/html[1]/body[1]/div[3]/div[1]/div[3]/div[3]/div[1]/div[1]/div[2]/div[1]/article[1]/div[3]/div[2]/div[2]";
+            List<string> xPaths = new List<string>();
            
             HtmlDocument htmlDoc = new HtmlDocument();
             List<IArticleElement> res = new List<IArticleElement>();
             HtmlWeb web = new HtmlWeb();
             string url = @"http://www.cnet.com/news/where-did-planet-nine-come-from/";
+            string url2 = @"http://www.cnet.com/news/wood-turned-into-a-clear-material-stronger-than-glass/";
+            string url3 = @"http://www.cnet.com/news/ibm-memory-advances-could-speed-up-your-phone/";
             htmlDoc = web.Load(url);
             IEnumerable<HtmlNode> document = htmlDoc.DocumentNode.Descendants();
 
-            string xPathExclusion = document
-                .First(n => n.Attributes["section"] != null && n.Attributes["section"].Value == "shortcodeRelatedLinks")
-                .XPath;
+            // Header.           
+            xPaths.Add("//div[@class='articleHead']/p[1] | " + 
+                       "//div[@class='articleHead']/h1[1]");
+            // Image.
+            xPaths.Add("//span[@itemprop='image']/img[1]");
+            // Image footer.
+            xPaths.Add("//figure[@section='shortcodeImage']/figcaption/span[1]/p");
+            xPaths.Add("//figure[@section='shortcodeImage']/figcaption/span[last()]");
+            
+            // Article.
+            xPaths.Add("//div[@data-use-autolinker='true']/p");
 
-            using(Document doc = CreateDocument("test.pdf", FileMode.Create))
+
+
+            //var x = htmlDoc.DocumentNode.SelectNodes();
+
+            using(Document doc = CreateDocument("test3.pdf", FileMode.Create))
             {
-                HtmlParser parser = new HtmlParser(url, 
-                    new string[] { headerXPath, articleXPath }, 
-                    new string[] { xPathExclusion });
+                HtmlParser parser = new HtmlParser(url3);
 
-                AddToPdf(parser.GetElements(), doc);
+                AddToPdf(parser.GetElements(xPaths), doc);
             }
         }
 
@@ -70,9 +79,9 @@ namespace MornigPaper.Logic.PDF
             element.addToPdf(doc);
         }
 
-        static void AddToPdf(IEnumerable<IArticleElement> elements, Document doc)
+        static void AddToPdf(Article content, Document doc)
         {
-            foreach(IArticleElement el in elements)
+            foreach(IArticleElement el in content)
             {
                 el.addToPdf(doc);
             }           

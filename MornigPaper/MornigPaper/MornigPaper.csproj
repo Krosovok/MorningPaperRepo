@@ -62,6 +62,7 @@
     <Compile Include="Data\HTML\Article.cs" />
     <Compile Include="Data\HTML\IArticleElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
+    <Compile Include="Exceptions\InvalidElementException.cs" />
     <Compile Include="Exceptions\MorningPaperException.cs" />
     <Compile Include="Exceptions\UrlNotLoadedException.cs" />
     <Compile Include="Logic\HTML\HtmlParser.cs" />

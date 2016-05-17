@@ -17,61 +17,62 @@ namespace MornigPaper.Logic.HTML
     /// </summary>
     class HtmlParser
     {
-        private IEnumerable<HtmlNode> nodes;
-        private IEnumerable<string> xPathExclusions;
+        private HtmlNode rootNode;
 
-        public HtmlParser(string url, IEnumerable<string> xPaths, IEnumerable<string> xPathExclusions)
+        public HtmlParser(string url)
         {
             HtmlWeb w = new HtmlWeb();
             HtmlDocument doc;
             try
             {
                 doc = w.Load(url);
+                rootNode = doc.DocumentNode;
             }
             catch(HtmlWebException e)
             {
                 throw new InternetAccessException("URL was not loaded.", e);
             }
-            
-            this.xPathExclusions = new List<string>(xPathExclusions);
-            nodes = doc.DocumentNode.Descendants()
-                .Where(n => xPaths.Contains(n.XPath))
-                .ToList();
         }
 
-        public IEnumerable<IArticleElement> GetElements()
+        public Article GetElements(IEnumerable<string> xPaths)
         {
-            return nodes.SelectMany(node => GetElements(node));
+           Article res = new Article();
+           foreach(string path in xPaths)
+           {
+                IEnumerable<HtmlNode> nodes = rootNode.SelectNodes(path);
+                if(nodes == null)
+                    continue;
+                foreach(HtmlNode node in nodes)
+                {
+                    res.Add(CreateElement(node));
+                }            
+           }
+           return res;
         }
 
-        private IEnumerable<IArticleElement> GetElements(HtmlNode node)
+        private IArticleElement CreateElement(HtmlNode node)
         {
-            List<IArticleElement> res = new List<IArticleElement>();
-            if(xPathExclusions.Contains(node.XPath))
+            if(node.OuterHtml.StartsWith("<p"))
             {
-                return new List<IArticleElement>();
+                return new PDFText(node, ElementType.Paragraph);
             }
-
-            if (node.OuterHtml.StartsWith("<p"))
+            else if(node.OuterHtml.StartsWith("<h"))
             {
-                res.Add(new PDFText(node, ElementType.Paragraph));
+                return new PDFText(node, ElementType.Header);
             }
-            else if (node.OuterHtml.StartsWith("<h"))
+            else if(node.OuterHtml.StartsWith("<img"))
             {
-                res.Add(new PDFText(node, ElementType.Header));
+               return new PDFImage(node);
             }
-            else if (node.OuterHtml.StartsWith("<img"))
+            else if(node.OuterHtml.StartsWith("<span"))
             {
-                res.Add(new PDFImage(node));
+                return new PDFText(node, ElementType.Footer);
             }
             else
             {
-                foreach (HtmlNode n in node.ChildNodes)
-                {
-                    res.AddRange(GetElements(n));
-                }
+                throw new InvalidElementException("Unrecognized element, check your input.");
             }
-            return res;
-        }
+            
+        }  
     }
 }
