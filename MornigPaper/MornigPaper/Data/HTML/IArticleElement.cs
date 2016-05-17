@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iTextSharp.text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace MornigPaper.Data.HTML
         /// Add element to PDF.
         /// Of course text and images have different way to add them.
         /// </summary>
-        public void addToPdf(/*Some class representing PDF to add to.*/);
+        void addToPdf(Document pdf);
 
         //...somethig else?
     }

@@ -15,7 +15,7 @@ namespace MornigPaper.Test
         /// <summary>
         /// Start some test code.
         /// </summary>
-        public static void Test()
+        public static void Testtt()
         {
             Test1();
             Test2();

@@ -8,9 +8,8 @@ using iTextSharp;
 using iTextSharp.text.pdf;
 using System.IO;
 using HtmlAgilityPack;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.html;
-using ExCSS;
+//using iTextSharp.text.html.simpleparser;
+//using iTextSharp.text.html;
 using MornigPaper.Data.HTML;
 using MornigPaper.Logic.HTML;
 
