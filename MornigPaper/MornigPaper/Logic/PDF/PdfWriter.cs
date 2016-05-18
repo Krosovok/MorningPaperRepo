@@ -11,21 +11,10 @@ using HtmlAgilityPack;
 using MornigPaper.Data.HTML;
 using MornigPaper.Logic.HTML;
 
-/*
- * 
- * 
- * 
- * 
-  !!!TO DO!!! - I need different paragraph and phrase classes, the former being a container maybe? 
- *Element's "Type" property - do I need it then? 
- *
- * 
- * 
-*/
 namespace MornigPaper.Logic.PDF
 {
     /// <summary>
-    /// It will use some library to create PDF.
+    /// A class to create and write data to a PDF file. Uses iTextSharp library.
     /// </summary>
     class Pdf
     {
@@ -34,13 +23,10 @@ namespace MornigPaper.Logic.PDF
             List<string> xPaths = new List<string>();
            
             HtmlDocument htmlDoc = new HtmlDocument();
-            List<IArticleElement> res = new List<IArticleElement>();
             HtmlWeb web = new HtmlWeb();
             string url = @"http://www.cnet.com/news/where-did-planet-nine-come-from/";
             string url2 = @"http://www.cnet.com/news/wood-turned-into-a-clear-material-stronger-than-glass/";
             string url3 = @"http://www.cnet.com/news/ibm-memory-advances-could-speed-up-your-phone/";
-            htmlDoc = web.Load(url);
-            IEnumerable<HtmlNode> document = htmlDoc.DocumentNode.Descendants();
 
             // Header.           
             xPaths.Add("//div[@class='articleHead']/p[1] | " + 
@@ -66,6 +52,12 @@ namespace MornigPaper.Logic.PDF
             }
         }
 
+        /// <summary>
+        /// Create a blank PDF at the specified location using the specified creation mode.
+        /// </summary>
+        /// <param name="fileName">Path where to save the PDF, including it's name.</param>
+        /// <param name="mode">File creation mode.</param>
+        /// <returns></returns>
         static Document CreateDocument(string fileName, FileMode mode)
         {
             Document doc = new Document();
@@ -74,11 +66,21 @@ namespace MornigPaper.Logic.PDF
             return doc;
         }
 
+        /// <summary>
+        /// Adds a single element to the specified document.
+        /// </summary>
+        /// <param name="element">An item to add to PDF.</param>
+        /// <param name="doc">A document to add to.</param>
         static void AddToPdf(IArticleElement element, Document doc)
         {
             element.addToPdf(doc);
         }
 
+        /// <summary>
+        /// Adds an article (sequence of elements) to the specified PDF.
+        /// </summary>
+        /// <param name="content">Elements to add to PDF.</param>
+        /// <param name="doc">A document to add to.</param>
         static void AddToPdf(Article content, Document doc)
         {
             foreach(IArticleElement el in content)

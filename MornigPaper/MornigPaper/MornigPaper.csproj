@@ -72,7 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\HTML\Article.cs" />
+    <Compile Include="Data\HTML\HtmlElement.cs" />
     <Compile Include="Data\HTML\IArticleElement.cs" />
+    <Compile Include="Data\HTML\IHtmlElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
     <Compile Include="Exceptions\InvalidElementException.cs" />
     <Compile Include="Exceptions\MorningPaperException.cs" />
