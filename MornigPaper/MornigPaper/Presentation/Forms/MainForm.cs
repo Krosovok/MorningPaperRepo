@@ -20,6 +20,9 @@ namespace MornigPaper.Presentation.Forms
         public MainForm()
         {
             InitializeComponent();
+            
         }
+
+      
     }
 }
