@@ -26,7 +26,6 @@ namespace MornigPaper.Test
         {
             RssParseTest();
             Test1();
-            Test2();
             //RssParseTest();
             DataManagerTest();
             Test3();
