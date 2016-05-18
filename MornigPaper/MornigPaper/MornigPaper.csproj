@@ -32,6 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BitMiracle.LibTiff.NET">
+      <HintPath>Libraries\BitMiracle.LibTiff.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>Libraries\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>Libraries\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>Libraries\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>Libraries\itextsharp.xtra.dll</HintPath>
+    </Reference>
+    <Reference Include="PreviewHandlers">
+      <HintPath>Libraries\PreviewHandlers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,9 +65,14 @@
     <Compile Include="Data\HTML\Article.cs" />
     <Compile Include="Data\HTML\IArticleElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
+    <Compile Include="Exceptions\InvalidElementException.cs" />
+    <Compile Include="Exceptions\MorningPaperException.cs" />
+    <Compile Include="Exceptions\UrlNotLoadedException.cs" />
     <Compile Include="Data\RSS\RssParse.cs" />
     <Compile Include="Logic\HTML\HtmlParser.cs" />
     <Compile Include="Logic\LocalDataStoring\SomeClassToWorkWithStoredInformation_RENAME_.cs" />
+    <Compile Include="Logic\PDF\PDFImage.cs" />
+    <Compile Include="Logic\PDF\PDFText.cs" />
     <Compile Include="Logic\PDF\PdfWriter.cs" />
     <Compile Include="Logic\Search\WebPagesOpener.cs" />
     <Compile Include="Presentation\Forms\MainForm.cs">
@@ -84,6 +107,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Libraries\" />
     <Folder Include="Presentation\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

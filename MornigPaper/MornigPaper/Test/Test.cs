@@ -1,4 +1,5 @@
 ﻿using MornigPaper.Data.RSS;
+using MornigPaper.Logic.PDF;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,13 +23,20 @@ namespace MornigPaper.Test
         public static void RunTest()
         {
             RssParseTest();
+            Test1();
             Test2();
             Test3();
             Test4();
         }
+        private static void Test1()
+        {
+            Pdf.test();
+            // Some code to inspect here.
+        }
 
         private static void RssParseTest()
         {
+            Pdf.test();
             // Some code to inspect here.
             Rss rss = new Rss("http://www.animespirit.ru/engine/rss.php");
             List<string> keywords = (new string[] { "студент", "адвокат", "деревня", "мир" }).ToList();
