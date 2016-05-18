@@ -15,13 +15,14 @@ namespace MornigPaper.Logic.PDF
     /// </summary>
     class PDFImage: IArticleElement
     {
-        /*
-        public int Width { get; set; }
-        public int Height { get; set; }
-        */
-
+        /// <summary>
+        /// The image itself.
+        /// </summary>
         public Image Content { get; set; }
 
+        /// <summary>
+        /// URL path to the image.
+        /// </summary>
         public Uri Source { get; set; }
 
         public PDFImage(HtmlNode node, String baseUrl)
@@ -31,6 +32,11 @@ namespace MornigPaper.Logic.PDF
             this.Content = Image.GetInstance(this.Source);
         }
 
+        /// <summary>
+        /// Creates an image from the specified <img> node. 
+        /// Creates a default 'image-not-found' if the picture can't be loaded.
+        /// </summary>
+        /// <param name="node"> HTML image node.</param>
         public PDFImage(HtmlNode node)
         {
             try

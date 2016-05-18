@@ -10,20 +10,14 @@ using MornigPaper.Data.HTML;
 
 namespace MornigPaper.Logic.PDF
 {
-    class PDFParagraph
-    {
-        //public 
-    }
+   
     /// <summary>
-    /// Represents a type of a text element e.g. a phrase or a paragraph.
+    /// Represents a type of a text element e.g. a phrase, a header or a paragraph.
     /// </summary>
+    /// 
     enum ElementType { Phrase, Paragraph, Header, Footer }
 
-    /// <summary>
-    /// Element's allignmen in the document. 
-    /// </summary>
     
-
     /// <summary>
     /// Represents a piece of formatted text. 
     /// </summary>
@@ -45,6 +39,11 @@ namespace MornigPaper.Logic.PDF
             }
         }
 
+        /// <summary>
+        /// Creates a new PDFText from an HTML node and a Type.
+        /// </summary>
+        /// <param name="node">HTML node that contains necessary info.</param>
+        /// <param name="type">PDFText Type (e.g. Paragraph, Header or Footer).</param>
         public PDFText(HtmlNode node, ElementType type)
         {
             this.Content = node.InnerText;
@@ -52,6 +51,12 @@ namespace MornigPaper.Logic.PDF
             this.Type = type;
         }
 
+        /// <summary>
+        /// Creates a new PDFText from an HTML node, a Type and a custom Font.
+        /// </summary>
+        /// <param name="node">HTML node that contains necessary info.</param>
+        /// <param name="type">PDFText Type (e.g. Paragraph, Header or Footer).</param>
+        /// <param name="font">A custom font used to override the default one.</param>
         public PDFText(HtmlNode node, ElementType type, Font font)
         {
             this.Content = node.InnerText.Trim();
@@ -60,7 +65,7 @@ namespace MornigPaper.Logic.PDF
         }
 
         /// <summary>
-        /// Adds a phrase created from this element to the target document.
+        /// Adds this element to the target document.
         /// </summary>
         /// <param name="pdf"> A document to add to.</param>
         public void addToPdf(Document pdf)

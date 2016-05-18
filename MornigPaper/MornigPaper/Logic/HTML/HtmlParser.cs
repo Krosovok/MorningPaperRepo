@@ -12,13 +12,16 @@ using MornigPaper.Exceptions;
 namespace MornigPaper.Logic.HTML
 {
     /// <summary>
-    /// Converter from HTML article to  
-    /// I suppose we will use HtmlAgilityPack for processing HTML.
+    /// Converts an HTML page into an Article object which can be added to PDF
     /// </summary>
     class HtmlParser
     {
         private HtmlNode rootNode;
 
+        /// <summary>
+        /// Creates an HTML parser for the specific web page specifies by it's URL.
+        /// </summary>
+        /// <param name="url">Web-page address. </param>
         public HtmlParser(string url)
         {
             HtmlWeb w = new HtmlWeb();
@@ -34,6 +37,11 @@ namespace MornigPaper.Logic.HTML
             }
         }
 
+        /// <summary>
+        /// Retrieves the information from the selected web-page using xPath into an Article.
+        /// </summary>
+        /// <param name="xPaths"> Path to the nodes that directly contain all necessary information.</param>
+        /// <returns></returns>
         public Article GetElements(IEnumerable<string> xPaths)
         {
            Article res = new Article();
@@ -50,6 +58,11 @@ namespace MornigPaper.Logic.HTML
            return res;
         }
 
+        /// <summary>
+        /// Create an Article Element e.g. paragraph, image, header etc. from an HTML node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         private IArticleElement CreateElement(HtmlNode node)
         {
             if(node.OuterHtml.StartsWith("<p"))
