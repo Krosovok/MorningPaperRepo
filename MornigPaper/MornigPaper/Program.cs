@@ -15,19 +15,16 @@ namespace MornigPaper
         [STAThread]
         static void Main()
         {
-<<<<<<< HEAD
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new MainForm());
             // Как завещал великий Ленин:
             Test.Test.RunTest();
-=======
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
            // Application.Run(new MainForm());
             // Как завещал великий Ленин:
-            Test.Test.Testtt();
->>>>>>> refs/remotes/origin/htmlToPdf
+            Test.Test.RunTest();
         }
     }
 }
