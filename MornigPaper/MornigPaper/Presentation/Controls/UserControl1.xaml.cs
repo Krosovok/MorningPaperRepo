@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -13,6 +14,8 @@ namespace MornigPaper.Presentation.Controls
     /// </summary>
     public partial class UserControl1 : UserControl
     {
+        Dictionary<string, List<string>> ii;
+
         public UserControl1()
         {
             InitializeComponent();
@@ -71,9 +74,45 @@ namespace MornigPaper.Presentation.Controls
             //    ItemsSource = new string[] { "C" } 
             //});
 
+            ii = new Dictionary<string, List<string>>();
+            ii.Add("M", new List<string>(new string[] { "C", "U", "R" }));
 
 
             tvMain.Items.Add(treeItem);
+        }
+
+        private void FillTree(Dictionary<string, List<string>> ii)
+        {
+            tvMain.ItemTemplate = GetHeaderTemplate();
+            tvMain.ItemContainerGenerator.StatusChanged +=
+                new EventHandler(ItemContainerGenerator_StatusChanged);
+
+            foreach (KeyValuePair<string, List<string>> i in ii)
+            {
+                tvMain.Items.Add(i);
+            }
+        }
+
+        void ItemContainerGenerator_StatusChanged(object sender, EventArgs e)
+        {
+            if (tvMain.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
+            {
+                foreach (KeyValuePair<string, List<string>> i in ii)
+                {
+                    TreeViewItem item =
+                (TreeViewItem)tvMain.ItemContainerGenerator.ContainerFromItem(i.Key);
+                    if (item == null) continue;
+                    item.IsExpanded = true;
+                    if (item.Items.Count == 0)
+                    {
+
+                        foreach (string s in i.Value)
+                        {
+                            item.Items.Add(s);
+                        }
+                    }
+                }
+            }
         }
 
         private DataTemplate GetHeaderTemplate()
