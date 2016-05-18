@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DataManager.cs" />
     <Compile Include="Data\HTML\Article.cs" />
     <Compile Include="Data\HTML\IArticleElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Exceptions\UrlNotLoadedException.cs" />
     <Compile Include="Data\RSS\RssParse.cs" />
     <Compile Include="Logic\HTML\HtmlParser.cs" />
-    <Compile Include="Logic\LocalDataStoring\SomeClassToWorkWithStoredInformation_RENAME_.cs" />
+    <Compile Include="Logic\LocalDataStoring\LocalDataManager.cs" />
     <Compile Include="Logic\PDF\PDFImage.cs" />
     <Compile Include="Logic\PDF\PDFText.cs" />
     <Compile Include="Logic\PDF\PdfWriter.cs" />
