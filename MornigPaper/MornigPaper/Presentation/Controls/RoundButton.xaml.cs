@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 namespace MornigPaper.Presentation.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для UserControl1.xaml
+    /// Логика взаимодействия для RoundButton.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class RoundButton : UserControl
     {
         private static Style s;
+        private Button basis;
 
-        public UserControl1()
+        public RoundButton()
         {
             InitializeComponent();
             //this.Resources.Add(typeof(Button), GetButtonStyle());
@@ -34,7 +35,7 @@ namespace MornigPaper.Presentation.Controls
 
 
             this.gridDesu.Resources.Add(typeof(Button), GetButtonStyle());
-            this.gridDesu.Children.Add(new Button()
+            this.gridDesu.Children.Add(basis = new Button()
             {
                 Name = "MyButton",
                 Content = "MY P_I_N_K BUTTON!!!"//,
@@ -43,13 +44,34 @@ namespace MornigPaper.Presentation.Controls
 
             });
 
-            this.SizeChanged += UserControl1_SizeChanged;
+            //object o = this.gridDesu.FindName("BackRect");
+
+            FrameworkElementFactory f = ((basis.Style.Setters.Last() as Setter).Value as ControlTemplate).VisualTree.FirstChild;
+            foreach (Trigger t in ((basis.Style.Setters.Last() as Setter).Value as ControlTemplate).Triggers)
+            {
+
+            }
+
+            
+
+            //this.SizeChanged += UserControl1_SizeChanged;
         }
 
-        private void UserControl1_SizeChanged(object sender, SizeChangedEventArgs e)
+        public string Text
         {
-            this.gridDesu.Height    = this.Height;
-            this.gridDesu.Width     = this.Width; 
+            get
+            {
+                if (this.basis == null)
+                    throw new ClassNotConstructedException();
+                return this.basis.Content as string;
+            }
+            set
+            {
+                if (this.basis == null)
+                    throw new ClassNotConstructedException();
+                this.basis.Content = value;
+            }
+
         }
 
         private Style GetButtonStyle()
@@ -69,8 +91,28 @@ namespace MornigPaper.Presentation.Controls
             Setter template = GetTemplate();
             style.Setters.Add(template);
 
+            style.Triggers.Add(GetTrigger(Button.IsMouseOverProperty));
+            style.Triggers.Add(GetTrigger(Button.IsPressedProperty));
 
             return s = style;
+        }
+
+        private Trigger GetTrigger(DependencyProperty prop, Setter setter)
+        {
+            Trigger t = new Trigger()
+            {
+                Property = prop,
+                Value = true
+            };
+            t.Setters.Add(setter);
+            return t;
+        }
+
+        private Trigger GetTrigger(DependencyProperty prop)
+        {
+            return GetTrigger(prop, 
+                new Setter(Button.ForegroundProperty, 
+                    new SolidColorBrush(Colors.Black)));
         }
 
         private Setter GetTemplate()
@@ -78,6 +120,41 @@ namespace MornigPaper.Presentation.Controls
             ControlTemplate template = new ControlTemplate(typeof(Button));
 
             template.VisualTree = GetVisualTree();
+
+            // Works:
+
+            //template.Triggers.Add(GetTrigger(Button.IsMouseOverProperty,
+            //    new Setter(Button.ForegroundProperty,
+            //        new SolidColorBrush(Colors.Red))));
+            
+            // Another way:
+
+            //Trigger t = new Trigger()
+            //    {
+            //        Property = Button.IsMouseOverProperty,
+            //        Value = true
+            //    };
+            //t.Setters.Add(new Setter(Rectangle.FillProperty,
+            //        new RadialGradientBrush(
+            //            Colors.Purple,
+            //            Colors.MediumPurple),
+            //            "BackRect"));
+
+
+            template.Triggers.Add(GetTrigger(Button.IsMouseOverProperty,
+                new Setter(Rectangle.FillProperty,
+                    new RadialGradientBrush(
+                        Colors.Purple,
+                        Colors.MediumPurple),
+                        "BackRect"/**/)));
+
+
+            template.Triggers.Add(GetTrigger(Button.IsPressedProperty,
+                new Setter(Rectangle.FillProperty,
+                    new RadialGradientBrush(
+                        Colors.Black,
+                        Colors.Purple),
+                        "BackRect"/**/)));
 
             return new Setter(Button.TemplateProperty, template);
         }
@@ -97,25 +174,10 @@ namespace MornigPaper.Presentation.Controls
             return factory;
         }
 
-        //private Grid GetGrid()
-        //{
-        //    Grid g = new Grid();
-
-        //    g.Children.Add(GetBackRect());
-        //    g.Children.Add(ShineRect());
-        //    g.Children.Add(new ContentPresenter()
-        //    {
-        //        VerticalAlignment = VerticalAlignment.Center,
-        //        HorizontalAlignment = HorizontalAlignment.Center
-        //    });
-
-        //    return g;
-        //}
-
         private FrameworkElementFactory BackRect()
         {
             FrameworkElementFactory rect = new FrameworkElementFactory(typeof(Rectangle));
-            rect.SetValue(Rectangle.NameProperty, "BackRect");
+            //rect.SetValue(Rectangle.NameProperty, "BackRect");
             //rect.SetValue(Rectangle.VerticalAlignmentProperty, VerticalAlignment.Top);
             rect.SetValue(Rectangle.OpacityProperty, 1d);
             rect.SetValue(Rectangle.RadiusXProperty, 9d);
@@ -128,6 +190,8 @@ namespace MornigPaper.Presentation.Controls
                     new Point(0, 0),
                     new Point(0, 1)));
             rect.SetBinding(Rectangle.FillProperty, new Binding());
+
+            rect.Name = "BackRect";
 
             return rect;
         }
@@ -153,9 +217,16 @@ namespace MornigPaper.Presentation.Controls
                     new Point(0, 1)));
 
 
+
             return rect;
         }
         
+        private void UserControl1_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.gridDesu.Height    = this.Height;
+            this.gridDesu.Width     = this.Width; 
+        }
+
 
     }
 }
