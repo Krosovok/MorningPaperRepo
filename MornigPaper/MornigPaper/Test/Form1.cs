@@ -15,7 +15,6 @@ namespace MornigPaper.Test
         public Form1()
         {
             InitializeComponent();
-            (this.elementHost1.Child as MornigPaper.Presentation.Controls.RoundButton).Text = "This is possible indeed.";
         }
     }
 }

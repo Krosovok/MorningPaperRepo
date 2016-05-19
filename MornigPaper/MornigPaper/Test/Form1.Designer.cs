@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.userControl11 = new MornigPaper.Presentation.Controls.RoundButton();
+            this.userControl11 = new MornigPaper.Presentation.Controls.UserControl1();
             this.SuspendLayout();
             // 
             // elementHost1
             // 
             this.elementHost1.Location = new System.Drawing.Point(12, 12);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(201, 102);
+            this.elementHost1.Size = new System.Drawing.Size(242, 177);
             this.elementHost1.TabIndex = 0;
-            this.elementHost1.Text = "HeleHos";
+            this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = this.userControl11;
             // 
             // Form1
@@ -56,7 +56,7 @@
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private Presentation.Controls.RoundButton userControl11;
+        private Presentation.Controls.UserControl1 userControl11;
 
 
     }
