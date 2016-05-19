@@ -10,6 +10,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using HtmlAgilityPack;
+using iTextSharp.text;
+using MornigPaper.Logic.HTML;
+using iTextSharp.text.pdf;
 
 namespace MornigPaper.Test
 {
@@ -24,22 +28,22 @@ namespace MornigPaper.Test
         /// </summary>
         public static void RunTest()
         {
-            RssParseTest();
-            Test1();
             //RssParseTest();
-            DataManagerTest();
-            Test3();
+            //Test1();
+            //RssParseTest();
+            //DataManagerTest();
+            TestMain();
             Test4();
         }
         private static void Test1()
         {
-            Pdf.test();
+            //Pdf.test();
             // Some code to inspect here.
         }
 
         private static void RssParseTest()
         {
-            Pdf.test();
+            //Pdf.test();
             // Some code to inspect here.
             Rss rss = new Rss("http://www.animespirit.ru/engine/rss.php");
             List<string> keywords = (new string[] { "студент", "адвокат", "деревня", "мир" }).ToList();
@@ -73,9 +77,48 @@ namespace MornigPaper.Test
             LocalDataManager ldmg = LocalDataManager.Initialize();
         }
 
-        private static void Test3()
+        private static void TestMain()
         {
-            // Some code to inspect here.
+            //Dictionary<string, List<string>> topics = new Dictionary<string, List<string>>();
+            //List<string> firstTopic = new List<string>(new string[] { "cnet" });
+
+            //topics.Add("first", firstTopic);
+
+            //Dictionary<string, List<string>> websiteXpath = new Dictionary<string, List<string>>();
+            //List<string> firstXpath = new List<string>(new string[] { "//div[@class='articleHead']/p[1] | " 
+            //    + "//div[@class='articleHead']/h1[1]",
+            //    "//span[@itemprop='image']/img[1]", 
+            //    "//figure[@section='shortcodeImage']/figcaption/span[1]/p", 
+            //    "//figure[@section='shortcodeImage']/figcaption/span[last()]",
+            //    "//div[@data-use-autolinker='true']/p"});
+
+            //websiteXpath.Add("cnet", firstXpath);
+
+            //Dictionary<string, string> websiteRss = new Dictionary<string, string>();
+            //websiteRss.Add("cnet", "http://www.cnet.com/rss/news/");
+
+            //LocalDataManager ldm = new LocalDataManager();
+            //ldm.Topics = topics;
+            //ldm.WebsiteXpath = websiteXpath;
+            //ldm.WebsiteRss = websiteRss;
+            //ldm.Serialize();
+            LocalDataManager ldm = LocalDataManager.Initialize();
+            Pdf pdf = new Pdf("wtfpdf.pdf");
+            foreach (KeyValuePair<string, List<string>> pair in ldm.Topics)
+            {
+                foreach (string website in pair.Value)
+                {
+                    Rss rss = new Rss(ldm.WebsiteRss[website]);
+                    RssParse parse = new RssParse(rss, new List<string>(new string[] { "gameasasd", "ga", "gae", "gameasd", "gzfe", "gzxzme", "gafze", "adme", "ghame", "asdame", "gdfge" }));
+
+                    foreach (string link in parse.Links)
+                    {
+                        pdf.AddArticle(link, ldm.WebsiteXpath[website]);
+                    }
+
+                }
+            }
+            pdf.Close();
         }
 
         private static void Test4()
