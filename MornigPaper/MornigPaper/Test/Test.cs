@@ -35,7 +35,7 @@ namespace MornigPaper.Test
 
         private static void Test3()
         {
-            // Some code to inspect here.
+            new Form1().ShowDialog();
         }
 
         private static void Test4()

@@ -20,7 +20,6 @@ namespace MornigPaper
             //Application.Run(new MainForm());
             // Как завещал великий Ленин:
             Test.Test.Testtt();
-            Application.Run(new Test.TestForm());
         }
     }
 }
