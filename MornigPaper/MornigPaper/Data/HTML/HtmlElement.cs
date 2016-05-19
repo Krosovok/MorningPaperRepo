@@ -6,17 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iTextSharp;
-using iTextSharp.text;
 
 namespace MornigPaper.Data.HTML
 {
     public enum Allignment 
     {
-        Left = Element.ALIGN_LEFT;
-        Center = Element.ALIGN_CENTER;
-        Right = Element.ALIGN_RIGHT;
-        Justified = Element.ALIGN_JUSTIFIED;
-
+        None = 0,
+        Left = Element.ALIGN_LEFT,
+        Center = Element.ALIGN_CENTER,
+        Right = Element.ALIGN_RIGHT,
+        Justified = Element.ALIGN_JUSTIFIED
     }
 
     class HtmlElement: IHtmlElement
@@ -49,7 +48,7 @@ namespace MornigPaper.Data.HTML
         {
             this.core = html;
             this.font = new Font(font);
-            this.allignment = allignment
+            this.allignment = allignment;
         }
 
         /// <summary>
@@ -78,9 +77,11 @@ namespace MornigPaper.Data.HTML
             return font ?? DefaultFont;
         }
 
-        Allignment GetAllignment()
+        public Allignment GetAllignment()
         {
-            return allignment ?? DefaultAllignment;
+            return (int)allignment == 0 
+                ? DefaultAllignment
+                : allignment;
         }
 
     }

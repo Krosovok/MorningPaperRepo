@@ -28,7 +28,7 @@ namespace MornigPaper.Test
         private static void Test1()
         {
            
-            //Pdf.test();
+            Pdf.test();
             // Some code to inspect here.
         }
 

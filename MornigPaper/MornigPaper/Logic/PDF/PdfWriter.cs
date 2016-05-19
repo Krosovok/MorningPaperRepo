@@ -18,12 +18,28 @@ namespace MornigPaper.Logic.PDF
     /// </summary>
     class Pdf
     {
+        public static void CreatePdf(string url, string fileName, List<string> xPaths)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            HtmlWeb web = new HtmlWeb();
+
+            Document doc = new Document();
+            FileStream fs = new FileStream(fileName, FileMode.Create);
+            PdfWriter.GetInstance(doc, fs);
+            doc.Open();
+
+            HtmlParser parser = new HtmlParser(url);
+
+            AddToPdf(parser.GetElements(xPaths), doc);
+
+            doc.Close();
+            fs.Close();
+        }
         public static void test()
         {
             List<string> xPaths = new List<string>();
            
-            HtmlDocument htmlDoc = new HtmlDocument();
-            HtmlWeb web = new HtmlWeb();
+           
             string url = @"http://www.cnet.com/news/where-did-planet-nine-come-from/";
             string url2 = @"http://www.cnet.com/news/wood-turned-into-a-clear-material-stronger-than-glass/";
             string url3 = @"http://www.cnet.com/news/ibm-memory-advances-could-speed-up-your-phone/";
@@ -40,31 +56,13 @@ namespace MornigPaper.Logic.PDF
             // Article.
             xPaths.Add("//div[@data-use-autolinker='true']/p");
 
+            CreatePdf(url, "test.pdf", xPaths);
+            //CreatePdf(url2, "test.pdf", xPaths);
+            //CreatePdf(url3, "test.pdf", xPaths);
 
-
-            //var x = htmlDoc.DocumentNode.SelectNodes();
-
-            using(Document doc = CreateDocument("test3.pdf", FileMode.Create))
-            {
-                HtmlParser parser = new HtmlParser(url3);
-
-                AddToPdf(parser.GetElements(xPaths), doc);
-            }
+            
         }
 
-        /// <summary>
-        /// Create a blank PDF at the specified location using the specified creation mode.
-        /// </summary>
-        /// <param name="fileName">Path where to save the PDF, including it's name.</param>
-        /// <param name="mode">File creation mode.</param>
-        /// <returns></returns>
-        static Document CreateDocument(string fileName, FileMode mode)
-        {
-            Document doc = new Document();
-            PdfWriter.GetInstance(doc, new FileStream(fileName, mode));
-            doc.Open();
-            return doc;
-        }
 
         /// <summary>
         /// Adds a single element to the specified document.

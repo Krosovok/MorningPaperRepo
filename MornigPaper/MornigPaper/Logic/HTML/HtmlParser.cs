@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MornigPaper.Exceptions;
+using MornigPaper.Properties;
 
 namespace MornigPaper.Logic.HTML
 {
@@ -24,12 +25,14 @@ namespace MornigPaper.Logic.HTML
         /// <param name="url">Web-page address. </param>
         public HtmlParser(string url)
         {
+            //FontFactory.RegisterDirectory(@"C:\Windows\Fonts");
             HtmlWeb w = new HtmlWeb();
             HtmlDocument doc;
             try
             {
                 doc = w.Load(url);
                 rootNode = doc.DocumentNode;
+
             }
             catch(HtmlWebException e)
             {
@@ -67,7 +70,13 @@ namespace MornigPaper.Logic.HTML
         {
             if(node.OuterHtml.StartsWith("<p"))
             {
-                return new PDFText(node, ElementType.Paragraph);
+                //var x = FontFactory.RegisteredFonts;
+                //x = FontFactory.RegisteredFamilies;
+                Font font = FontFactory.GetFont("times-roman");
+                Font.FontFamily f = (Font.FontFamily)
+                    Enum.Parse(typeof(Font.FontFamily), Settings.Default.FontFamily);
+
+                return new PDFText(node, ElementType.Paragraph, font);
             }
             else if(node.OuterHtml.StartsWith("<h"))
             {

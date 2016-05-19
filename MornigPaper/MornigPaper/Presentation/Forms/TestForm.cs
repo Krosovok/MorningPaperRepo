@@ -24,7 +24,7 @@ namespace MornigPaper.Presentation.Forms
 
         private void TestForm_Load(object sender, EventArgs e)
         {
-            pdfViewer1.LoadFromFile("test2.pdf");
+            pdfViewer1.LoadFromFile("test1.pdf");
             pdfViewer1.Show();
         }
     }

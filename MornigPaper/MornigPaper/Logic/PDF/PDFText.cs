@@ -15,7 +15,7 @@ namespace MornigPaper.Logic.PDF
     /// Represents a type of a text element e.g. a phrase, a header or a paragraph.
     /// </summary>
     /// 
-    enum ElementType { Phrase, Paragraph, Header, Footer }
+    enum ElementType { Phrase, Paragraph, Header, Footer, NewLine, PageBreak }
 
     
     /// <summary>
@@ -38,6 +38,17 @@ namespace MornigPaper.Logic.PDF
                 return defaultFont;
             }
         }
+
+        /// <summary>
+        /// Creates a new PDFText from a string.
+        /// </summary>
+        public PDFText(string content, ElementType type)
+        {
+            this.Content = content;
+            this.Font = DefaultFont;
+            this.Type = type;
+        }
+
 
         /// <summary>
         /// Creates a new PDFText from an HTML node and a Type.
@@ -85,6 +96,14 @@ namespace MornigPaper.Logic.PDF
              else if(this.Type == ElementType.Footer)
              {
                  pdf.Add(new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size - 3, Font.ITALIC)));
+             }
+             else if(this.Type == ElementType.NewLine)
+             {
+                 pdf.Add(Chunk.NEWLINE);
+             }
+             else if(this.Type == ElementType.PageBreak)
+             {
+                 pdf.Add(Chunk.NEXTPAGE);
              }
             
         }

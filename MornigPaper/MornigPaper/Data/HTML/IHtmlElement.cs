@@ -28,6 +28,6 @@ namespace MornigPaper.Data.HTML
         /// Gets the integer number representing the element's allignment in th PDF.
         /// </summary>
         /// <returns></returns>
-        int GetAllignment();
+        Allignment GetAllignment();
     }
 }
