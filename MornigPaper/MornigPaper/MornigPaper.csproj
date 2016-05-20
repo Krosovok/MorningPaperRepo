@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DataManager.cs" />
     <Compile Include="Data\HTML\Article.cs" />
     <Compile Include="Data\HTML\HtmlElement.cs" />
     <Compile Include="Data\HTML\IArticleElement.cs" />
@@ -79,11 +80,12 @@
     <Compile Include="Exceptions\InvalidElementException.cs" />
     <Compile Include="Exceptions\MorningPaperException.cs" />
     <Compile Include="Exceptions\UrlNotLoadedException.cs" />
+    <Compile Include="Data\RSS\RssParse.cs" />
     <Compile Include="Logic\HTML\HtmlParser.cs" />
-    <Compile Include="Logic\LocalDataStoring\SomeClassToWorkWithStoredInformation_RENAME_.cs" />
+    <Compile Include="Logic\LocalDataStoring\LocalDataManager.cs" />
     <Compile Include="Logic\PDF\PDFImage.cs" />
     <Compile Include="Logic\PDF\PDFText.cs" />
-    <Compile Include="Logic\PDF\PdfWriter.cs" />
+    <Compile Include="Logic\PDF\Pdf.cs" />
     <Compile Include="Logic\Search\WebPagesOpener.cs" />
     <Compile Include="Presentation\Forms\MainForm.cs">
       <SubType>Form</SubType>
