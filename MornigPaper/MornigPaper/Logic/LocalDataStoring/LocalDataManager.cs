@@ -13,6 +13,7 @@ namespace MornigPaper.Logic.LocalDataStoring
         Dictionary<string, List<string>> topics;
         Dictionary<string, List<string>> websiteXpath;
         Dictionary<string, string> websiteRss;
+        Dictionary<string, List<string>> topicKeywords;
 
         /// <summary>
         /// Initialize LocalDataManager object.
@@ -22,6 +23,7 @@ namespace MornigPaper.Logic.LocalDataStoring
             topics = new Dictionary<string, List<string>>();
             websiteXpath = new Dictionary<string, List<string>>();
             websiteRss = new Dictionary<string, string>();
+            topicKeywords = new Dictionary<string, List<string>>();
         }
 
         /// <summary>
@@ -52,6 +54,15 @@ namespace MornigPaper.Logic.LocalDataStoring
         }
 
         /// <summary>
+        /// Returns Dictionary wih topic as a key and related keywords.
+        /// </summary>
+        public Dictionary<string, List<string>> TopicKeywords
+        {
+            get { return topicKeywords; }
+            set { topicKeywords = value; }
+        }
+
+        /// <summary>
         /// Initialize LocalDataManager object with stored data.
         /// </summary>
         /// <returns>Returns LocalDataManager object filled with stored data.</returns>
@@ -70,6 +81,10 @@ namespace MornigPaper.Logic.LocalDataStoring
             foreach (KVPair<string, string> pair in dm.WebsiteRss)
             {
                 ldm.WebsiteRss.Add(pair.Key, pair.Value);
+            }
+            foreach (KVPair<string, List<string>> pair in dm.TopicKeywords)
+            {
+                ldm.TopicKeywords.Add(pair.Key, pair.Value);
             }
             return ldm;
         }
@@ -91,6 +106,10 @@ namespace MornigPaper.Logic.LocalDataStoring
             foreach (KeyValuePair<string, string> pair in websiteRss)
             {
                 dm.WebsiteRss.Add(new KVPair<string, string>(pair.Key, pair.Value));
+            }
+            foreach (KeyValuePair<string, List<string>> pair in topicKeywords)
+            {
+                dm.TopicKeywords.Add(new KVPair<string, List<string>>(pair.Key, pair.Value));
             }
             dm.Serialize();
         }

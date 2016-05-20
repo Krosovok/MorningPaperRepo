@@ -17,6 +17,7 @@ namespace MornigPaper.Data
         List<KVPair<string, List<string>>> topics;
         List<KVPair<string, List<string>>> websiteXpath;
         List<KVPair<string, string>> websiteRss;
+        List<KVPair<string, List<string>>> topicKeywords;
 
 
         /// <summary>
@@ -27,6 +28,7 @@ namespace MornigPaper.Data
             topics = new List<KVPair<string, List<string>>>();
             websiteXpath = new List<KVPair<string, List<string>>>();
             websiteRss = new List<KVPair<string, string>>();
+            topicKeywords = new List<KVPair<string, List<string>>>();
         }
 
         /// <summary>
@@ -54,6 +56,15 @@ namespace MornigPaper.Data
         {
             get { return websiteRss; }
             set { websiteRss = value; }
+        }
+
+        /// <summary>
+        /// Returns KVPair List of topic keywords.
+        /// </summary>
+        public List<KVPair<string, List<string>>> TopicKeywords
+        {
+            get { return topicKeywords; }
+            set { topicKeywords = value; }
         }
 
         /// <summary>
