@@ -57,7 +57,12 @@
     <Compile Include="Logic\LocalDataStoring\SomeClassToWorkWithStoredInformation_RENAME_.cs" />
     <Compile Include="Logic\PDF\PdfWriter.cs" />
     <Compile Include="Logic\Search\WebPagesOpener.cs" />
+    <Compile Include="Presentation\Controls\ButtonHost.cs" />
+    <Compile Include="Presentation\Controls\ButtonHost.Designer.cs">
+      <DependentUpon>ButtonHost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Controls\ClassNotConstructedException.cs" />
+    <Compile Include="Presentation\Controls\IButtonStyleChanger.cs" />
     <Compile Include="Presentation\Controls\ImageTreeViewItem.cs" />
     <Compile Include="Presentation\Controls\ImageTreeViewItem.Designer.cs">
       <DependentUpon>ImageTreeViewItem.cs</DependentUpon>

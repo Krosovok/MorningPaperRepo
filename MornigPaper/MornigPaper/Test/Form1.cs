@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+//using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace MornigPaper.Test
 {
@@ -15,7 +16,11 @@ namespace MornigPaper.Test
         public Form1()
         {
             InitializeComponent();
-            (this.elementHost1.Child as MornigPaper.Presentation.Controls.RoundButton).Text = "This is possible indeed.";
+
+            buttonHost1.Child = new Presentation.Controls.RoundButton();
+            buttonHost1.IsPressedBrush = new LinearGradientBrush(Colors.Gray, Colors.Green, 50.0);
+            buttonHost1.Text = "CHANGED";
+            buttonHost1.AddStyle();
         }
     }
 }
