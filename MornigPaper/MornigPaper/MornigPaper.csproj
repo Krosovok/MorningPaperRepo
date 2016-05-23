@@ -47,6 +47,8 @@
     <Reference Include="itextsharp.xtra">
       <HintPath>Libraries\itextsharp.xtra.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="PreviewHandlers">
       <HintPath>Libraries\PreviewHandlers.dll</HintPath>
     </Reference>
@@ -159,11 +161,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Fonts\" />
-    <Folder Include="Libraries\" />
     <Page Include="Presentation\Controls\RoundButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fonts\" />
+    <Folder Include="Libraries\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

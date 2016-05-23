@@ -22,15 +22,15 @@ namespace MornigPaper
             Test.Test.RunTest();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-<<<<<<< HEAD
+
             Application.Run(new TestForm("test.pdf"));
             // Как завещал великий Ленин:
-            //Test.Test.RunTest();
-=======
+            Test.Test.RunTest();
+
             //Application.Run(new MainForm());
             // Как завещал великий Ленин:
-            Test.Test.Testtt();
->>>>>>> refs/remotes/origin/GUI
+            
+
         }
     }
 }
