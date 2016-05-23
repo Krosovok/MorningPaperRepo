@@ -77,12 +77,14 @@
     <Compile Include="Data\HTML\IArticleElement.cs" />
     <Compile Include="Data\HTML\IHtmlElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
+    <Compile Include="Exceptions\FileAccessException.cs" />
     <Compile Include="Exceptions\InvalidElementException.cs" />
     <Compile Include="Exceptions\MorningPaperException.cs" />
     <Compile Include="Exceptions\UrlNotLoadedException.cs" />
     <Compile Include="Data\RSS\RssParse.cs" />
     <Compile Include="Logic\HTML\HtmlParser.cs" />
     <Compile Include="Logic\LocalDataStoring\LocalDataManager.cs" />
+    <Compile Include="Exceptions\FileSizeException.cs" />
     <Compile Include="Logic\PDF\PDFImage.cs" />
     <Compile Include="Logic\PDF\PDFText.cs" />
     <Compile Include="Logic\PDF\Pdf.cs" />
@@ -131,6 +133,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Fonts\" />
     <Folder Include="Libraries\" />
     <Folder Include="Presentation\Controls\" />
   </ItemGroup>

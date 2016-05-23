@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using iTextSharp;
 using iTextSharp.text;
 using MornigPaper.Data.HTML;
+using MornigPaper.Exceptions;
 
 namespace MornigPaper.Logic.PDF
 {
@@ -23,9 +24,29 @@ namespace MornigPaper.Logic.PDF
     /// </summary>
     class PDFText : Data.HTML.IArticleElement
     {
+        private ElementType elementType;
+
         public String Content { get; set; }
         public Font Font { get; set; }
-        public ElementType Type { get; set; } 
+        public ElementType Type { get; set; }
+        public Allignment Allignment { get; set; }
+
+       
+        public static PDFText PageBreak
+        {
+            get
+            {
+                return new PDFText("", ElementType.PageBreak);
+            }
+        }
+
+        public static PDFText NewLine
+        {
+            get
+            {
+                return new PDFText("", ElementType.NewLine);
+            }
+        }
 
         /// <summary>
         /// The default font is Times New Roman, 14pt.
@@ -63,6 +84,17 @@ namespace MornigPaper.Logic.PDF
         }
 
         /// <summary>
+        /// Creates a new PDFText from an HTML node, Type and Allignment within a document.
+        /// </summary>
+        public PDFText(HtmlNode node, ElementType type, Allignment allignment)
+        {
+            this.Content = node.InnerText;
+            this.Font = DefaultFont;
+            this.Type = type;
+            this.Allignment = allignment;
+        }
+
+        /// <summary>
         /// Creates a new PDFText from an HTML node, a Type and a custom Font.
         /// </summary>
         /// <param name="node">HTML node that contains necessary info.</param>
@@ -76,36 +108,55 @@ namespace MornigPaper.Logic.PDF
         }
 
         /// <summary>
+        /// Creates a new PDFText from an HTML node, a Type and a custom Font.
+        /// </summary>
+        public PDFText(string content, ElementType type, Allignment allignment)
+        {
+            this.Content = content;
+            this.Font = DefaultFont;
+            this.Type = type;
+            this.Allignment = allignment;
+        }
+
+        /// <summary>
         /// Adds this element to the target document.
         /// </summary>
         /// <param name="pdf"> A document to add to.</param>
         public void addToPdf(Document pdf)
         {
-             if (this.Type == ElementType.Phrase)
-             {
-                 pdf.Add(new Phrase(this.Content, this.Font));
-             }
-             else if(this.Type == ElementType.Paragraph)
-             {
-                 pdf.Add(new Paragraph(this.Content, this.Font));
-             }
-             else if(this.Type == ElementType.Header)
-             {
-                 pdf.Add(new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size + 3)));
-             }
-             else if(this.Type == ElementType.Footer)
-             {
-                 pdf.Add(new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size - 3, Font.ITALIC)));
-             }
-             else if(this.Type == ElementType.NewLine)
-             {
-                 pdf.Add(Chunk.NEWLINE);
-             }
-             else if(this.Type == ElementType.PageBreak)
-             {
-                 pdf.Add(Chunk.NEXTPAGE);
-             }
-            
+            IElement el;
+            switch(this.Type)
+            {
+                case ElementType.Paragraph: 
+                    el = new Paragraph(this.Content, this.Font);
+                    break;
+                case ElementType.Phrase:
+                    el = new Phrase(this.Content, this.Font);
+                    break;
+                case ElementType.Header:
+                    el = new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size + 3));
+                    break;
+                case ElementType.Footer:
+                    el = new Paragraph(this.Content, new Font(this.Font.Family, this.Font.Size - 3, Font.ITALIC));
+                    break;
+                case ElementType.NewLine:
+                    el = Chunk.NEWLINE;
+                    break;
+                case ElementType.PageBreak:
+                    el = Chunk.NEXTPAGE;
+                    break;
+                default:
+                    throw new InvalidElementException("Unidentified element type.");
+            }
+
+            if (el is Paragraph)
+            {
+                Paragraph p = el as Paragraph;
+                this.Content.Trim();
+                p.Alignment = (this.Allignment != Allignment.None)
+                ? (int)this.Allignment : (int)Allignment.Left;                        
+            }               
+             pdf.Add(el);
         }
 
         public override string ToString()

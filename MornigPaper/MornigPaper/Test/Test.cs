@@ -1,6 +1,7 @@
 ﻿using MornigPaper.Data;
 using MornigPaper.Data.RSS;
 using MornigPaper.Logic.PDF;
+using MornigPaper.Presentation.Forms;
 using MornigPaper.Logic.LocalDataStoring;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,13 @@ namespace MornigPaper.Test
         /// </summary>
         public static void RunTest()
         {
+            Pdf.test();
             //RssParseTest();
             //Test1();
             //RssParseTest();
             //DataManagerTest();
-            TestMain();
-            Test4();
+            //TestMain();
+            //Test4();
         }
         private static void Test1()
         {
@@ -103,7 +105,7 @@ namespace MornigPaper.Test
             //ldm.WebsiteRss = websiteRss;
             //ldm.Serialize();
             LocalDataManager ldm = LocalDataManager.Initialize();
-            Pdf pdf = new Pdf("wtfpdf.pdf");
+            Pdf pdf = new Pdf("wtf.pdf");
             foreach (KeyValuePair<string, List<string>> pair in ldm.Topics)
             {
                 foreach (string website in pair.Value)
@@ -111,10 +113,7 @@ namespace MornigPaper.Test
                     Rss rss = new Rss(ldm.WebsiteRss[website]);
                     RssParse parse = new RssParse(rss, new List<string>(new string[] { "gameasasd", "ga", "gae", "gameasd", "gzfe", "gzxzme", "gafze", "adme", "ghame", "asdame", "gdfge" }));
 
-                    foreach (string link in parse.Links)
-                    {
-                        pdf.AddArticle(link, ldm.WebsiteXpath[website]);
-                    }
+                    pdf.AddArticles(parse.Links, ldm.WebsiteXpath[website]);
 
                 }
             }

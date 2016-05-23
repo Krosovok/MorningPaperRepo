@@ -15,16 +15,17 @@ namespace MornigPaper.Presentation.Forms
 {
     public partial class TestForm : Form
     {
-        public TestForm()
+        string filePath;
+        public TestForm(string pdfName)
         {
             InitializeComponent();
-            
+            filePath = pdfName;
 
         }
 
         private void TestForm_Load(object sender, EventArgs e)
         {
-            pdfViewer1.LoadFromFile("test1.pdf");
+            pdfViewer1.LoadFromFile(filePath);
             pdfViewer1.Show();
         }
     }

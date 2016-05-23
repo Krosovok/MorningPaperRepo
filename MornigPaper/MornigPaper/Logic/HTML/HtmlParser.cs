@@ -73,8 +73,6 @@ namespace MornigPaper.Logic.HTML
                 //var x = FontFactory.RegisteredFonts;
                 //x = FontFactory.RegisteredFamilies;
                 Font font = FontFactory.GetFont("times-roman");
-                Font.FontFamily f = (Font.FontFamily)
-                    Enum.Parse(typeof(Font.FontFamily), Settings.Default.FontFamily);
 
                 return new PDFText(node, ElementType.Paragraph, font);
             }

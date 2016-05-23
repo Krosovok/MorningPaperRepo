@@ -15,15 +15,6 @@ namespace MornigPaper.Logic.PDF
     /// </summary>
     class PDFImage: IArticleElement
     {
-        /// <summary>
-        /// The image itself.
-        /// </summary>
-        public Image Content { get; set; }
-
-        /// <summary>
-        /// URL path to the image.
-        /// </summary>
-        public Uri Source { get; set; }
 
         public PDFImage(HtmlNode node, String baseUrl)
         {
@@ -45,20 +36,36 @@ namespace MornigPaper.Logic.PDF
                 this.Source = new Uri(src);
                 this.Content = Image.GetInstance(this.Source);
             }
-            catch(HtmlWebException)
+            catch (HtmlWebException)
             {
-                this.Content = Image.GetInstance(new Uri(@"http://www.westliguria.net/wp-content/uploads/2013/01/image-not-found.jpg")); ; 
+                this.Content = Image.GetInstance(new Uri(@"http://www.westliguria.net/wp-content/uploads/2013/01/image-not-found.jpg")); ;
             }
-            
         }
 
+        /// <summary>
+        /// The image itself.
+        /// </summary>
+        public Image Content { get; set; }
+
+        /// <summary>
+        /// URL path to the image.
+        /// </summary>
+        public Uri Source { get; set; }
+
+        public Allignment Allignment { get; set; }
+        
         /// <summary>
         /// Adds an image created from this element to the target document.
         /// </summary>
         /// <param name="pdf"> A document to add to.</param>
         public void addToPdf(Document pdf)
         {
-           pdf.Add(Image.GetInstance(this.Content));
+            Image img = Image.GetInstance(this.Content);
+            img.Alignment = (Allignment != Allignment.None)
+                ? (int)Allignment : (int)Allignment.Left;
+           
+            pdf.Add(img);
+            
         }
 
         /// <summary>
@@ -68,6 +75,7 @@ namespace MornigPaper.Logic.PDF
         public void Scale(float percent)
         {
             this.Content.ScalePercent(percent);
+            
         }
     }
 }

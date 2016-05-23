@@ -37,10 +37,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pdfViewer1.IsToolBarVisible = true;
-            this.pdfViewer1.Location = new System.Drawing.Point(13, 13);
+            this.pdfViewer1.Location = new System.Drawing.Point(50, 12);
             this.pdfViewer1.MultiPagesThreshold = 60;
             this.pdfViewer1.Name = "pdfViewer1";
-            this.pdfViewer1.Size = new System.Drawing.Size(259, 204);
+            this.pdfViewer1.Size = new System.Drawing.Size(222, 171);
             this.pdfViewer1.TabIndex = 0;
             this.pdfViewer1.Text = "pdfViewer1";
             this.pdfViewer1.Threshold = 60;
