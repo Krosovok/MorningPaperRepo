@@ -16,7 +16,11 @@ namespace MornigPaper.Data.HTML
         /// Add element to PDF.
         /// Of course text and images have different way to add them.
         /// </summary>
+<<<<<<< HEAD
         void addToPdf(Document pdf);
+=======
+        void addToPdf(/*Some class representing PDF to add to.*/);
+>>>>>>> refs/remotes/origin/GUI
 
         //...somethig else?
     }

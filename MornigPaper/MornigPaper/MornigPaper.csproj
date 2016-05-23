@@ -61,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,6 +70,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataManager.cs" />
@@ -89,6 +93,19 @@
     <Compile Include="Logic\PDF\PDFText.cs" />
     <Compile Include="Logic\PDF\Pdf.cs" />
     <Compile Include="Logic\Search\WebPagesOpener.cs" />
+    <Compile Include="Presentation\Controls\ButtonHost.cs" />
+    <Compile Include="Presentation\Controls\ButtonHost.Designer.cs">
+      <DependentUpon>ButtonHost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Controls\ClassNotConstructedException.cs" />
+    <Compile Include="Presentation\Controls\IButtonStyleChanger.cs" />
+    <Compile Include="Presentation\Controls\ImageTreeViewItem.cs" />
+    <Compile Include="Presentation\Controls\ImageTreeViewItem.Designer.cs">
+      <DependentUpon>ImageTreeViewItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Controls\RoundButton.xaml.cs">
+      <DependentUpon>RoundButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +120,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Test\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Test\Test.cs" />
     <EmbeddedResource Include="Presentation\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -119,6 +142,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Test\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -135,7 +161,9 @@
   <ItemGroup>
     <Folder Include="Fonts\" />
     <Folder Include="Libraries\" />
-    <Folder Include="Presentation\Controls\" />
+    <Page Include="Presentation\Controls\RoundButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

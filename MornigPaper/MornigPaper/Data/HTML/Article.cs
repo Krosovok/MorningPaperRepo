@@ -20,10 +20,14 @@ namespace MornigPaper.Data.HTML
         /// We need to add elements to our article to construct it.
         /// </summary>
         /// <param name="elem">Element which need to be added to the article.</param>
+<<<<<<< HEAD
         void append(IArticleElement elem)
         {
             this.Add(elem);
         }
+=======
+        void append(IArticleElement elem);
+>>>>>>> refs/remotes/origin/GUI
 
         void AddToPdf(Document doc)
         {

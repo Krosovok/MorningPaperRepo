@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="MornigPaper.Presentation.Controls.RoundButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             >
+    <Grid Name="gridDesu">
+		<Grid.Resources>
+			<!--<Style TargetType="{x:Type Button}">
+				<Setter Property="Foreground" Value="white" />
+				<Setter Property="Margin" Value="1" />
+			</Style>-->
+		</Grid.Resources>
+		
+		<!--<Button Name="My">Das ist meinen Button</Button>-->
+    </Grid>
+</UserControl>

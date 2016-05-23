@@ -31,7 +31,7 @@ namespace MornigPaper.Test
             //RssParseTest();
             //Test1();
             //RssParseTest();
-            //DataManagerTest();
+            DataManagerTest();
             TestMain();
             Test4();
         }
@@ -144,6 +144,7 @@ namespace MornigPaper.Test
 
         private static void Test4()
         {
+            new Form1().ShowDialog();
             // Some code to inspect here.
         }
     }
