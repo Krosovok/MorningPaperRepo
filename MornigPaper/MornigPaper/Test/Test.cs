@@ -1,7 +1,6 @@
 ﻿using MornigPaper.Data;
 using MornigPaper.Data.RSS;
 using MornigPaper.Logic.PDF;
-using MornigPaper.Presentation.Forms;
 using MornigPaper.Logic.LocalDataStoring;
 using System;
 using System.Collections.Generic;
@@ -29,13 +28,12 @@ namespace MornigPaper.Test
         /// </summary>
         public static void RunTest()
         {
-            Pdf.test();
             //RssParseTest();
             //Test1();
             //RssParseTest();
             //DataManagerTest();
-            //TestMain();
-            //Test4();
+            TestMain();
+            Test4();
         }
         private static void Test1()
         {
@@ -82,9 +80,14 @@ namespace MornigPaper.Test
         private static void TestMain()
         {
             //Dictionary<string, List<string>> topics = new Dictionary<string, List<string>>();
-            //List<string> firstTopic = new List<string>(new string[] { "cnet" });
+            //List<string> firstTopic = new List<string>(new string[] { "cnet"});
+            //List<string> secondTopic = new List<string>(new string[] { "scienceDaily", "scienceMag" });
 
-            //topics.Add("first", firstTopic);
+            //topics.Add("Apple", firstTopic);
+            //topics.Add("Microsoft", firstTopic);
+            //topics.Add("Google", firstTopic);
+            //topics.Add("Science & Space", secondTopic);
+            //topics.Add("Gaming", firstTopic);
 
             //Dictionary<string, List<string>> websiteXpath = new Dictionary<string, List<string>>();
             //List<string> firstXpath = new List<string>(new string[] { "//div[@class='articleHead']/p[1] | " 
@@ -98,26 +101,45 @@ namespace MornigPaper.Test
 
             //Dictionary<string, string> websiteRss = new Dictionary<string, string>();
             //websiteRss.Add("cnet", "http://www.cnet.com/rss/news/");
+            //websiteRss.Add("scienceDaily", "https://rss.sciencedaily.com/top/science.xml");
+            //websiteRss.Add("scienceMag", "https://www.sciencemag.org/rss/news_current.xml");
+
+            //Dictionary<string, List<string>> topicKeywords = new Dictionary<string, List<string>>();
+            //List<string> apple = new List<string>(new string[] { "Apple", "iPhone", "iPad", "iTunes", "Mac" });
+            //List<string> micro = new List<string>(new string[] { "Mircrosoft", "Windows" });
+            //List<string> google = new List<string>(new string[] { "Google", "Android" });
+            //List<string> scienceSpace = new List<string>(new string[] { "NASA", "Mars", "shuttle", "Earth" });
+            //List<string> gaming = new List<string>(new string[] { "game", "E3", "PC", "computer" });
+
+            //topicKeywords.Add("Apple", apple);
+            //topicKeywords.Add("Microsoft", micro);
+            //topicKeywords.Add("Google", google);
+            //topicKeywords.Add("Science & Space", scienceSpace);
+            //topicKeywords.Add("Gaming", gaming);
 
             //LocalDataManager ldm = new LocalDataManager();
             //ldm.Topics = topics;
             //ldm.WebsiteXpath = websiteXpath;
             //ldm.WebsiteRss = websiteRss;
+            //ldm.TopicKeywords = topicKeywords;
             //ldm.Serialize();
             LocalDataManager ldm = LocalDataManager.Initialize();
-            Pdf pdf = new Pdf("wtf.pdf");
-            foreach (KeyValuePair<string, List<string>> pair in ldm.Topics)
-            {
-                foreach (string website in pair.Value)
-                {
-                    Rss rss = new Rss(ldm.WebsiteRss[website]);
-                    RssParse parse = new RssParse(rss, new List<string>(new string[] { "gameasasd", "ga", "gae", "gameasd", "gzfe", "gzxzme", "gafze", "adme", "ghame", "asdame", "gdfge" }));
+            //Pdf pdf = new Pdf("wtfpdf.pdf");
+            //foreach (KeyValuePair<string, List<string>> pair in ldm.Topics)
+            //{
+            //    foreach (string website in pair.Value)
+            //    {
+            //        Rss rss = new Rss(ldm.WebsiteRss[website]);
+            //        RssParse parse = new RssParse(rss, new List<string>(new string[] { "gameasasd", "ga", "gae", "gameasd", "gzfe", "gzxzme", "gafze", "adme", "ghame", "asdame", "gdfge" }));
 
-                    pdf.AddArticles(parse.Links, ldm.WebsiteXpath[website]);
+            //        foreach (string link in parse.Links)
+            //        {
+            //            pdf.AddArticle(link, ldm.WebsiteXpath[website]);
+            //        }
 
-                }
-            }
-            pdf.Close();
+            //    }
+            //}
+            //pdf.Close();
         }
 
         private static void Test4()
