@@ -136,39 +136,42 @@ namespace MornigPaper.Logic.PDF
             }           
         }
 
-        
+
 
         public static void test()
         {
-            List<string> xPaths = new List<string>();
+            HtmlWeb w = new HtmlWeb();
+            HtmlDocument doc = w.Load(@"http://www.bbc.com/news/technology-36358517");
+            var node = doc.DocumentNode.Descendants()
+                .Where(n => n.Attributes["class"] != null && n.Attributes["class"].Value == "story-body__h1");
 
-            HtmlDocument htmlDoc = new HtmlDocument();
-            List<IArticleElement> res = new List<IArticleElement>();
-            HtmlWeb web = new HtmlWeb();
-            
-            string url = @"http://www.cnet.com/news/where-did-planet-nine-come-from/";
-            string url2 = @"http://www.cnet.com/news/wood-turned-into-a-clear-material-stronger-than-glass/";
-            string url3 = @"http://www.cnet.com/news/ibm-memory-advances-could-speed-up-your-phone/";
-
-            List<string> links = new string[] { url, url2, url3 }.ToList();
-
-            htmlDoc = web.Load(url);
-
-            // Header.           
-            xPaths.Add("//div[@class='articleHead']/p[1] | " +
-                       "//div[@class='articleHead']/h1[1]");
-            // Image.
-            xPaths.Add("//span[@itemprop='image']/img[1]");
-            // Image footer.
-            xPaths.Add("//figure[@section='shortcodeImage']/figcaption/span[last()]");
-
-            // Article.
-            xPaths.Add("//div[@data-use-autolinker='true']/p");
-
+            List<string> urls2 = new List<string>(new string[] {
+                @"https://www.sciencedaily.com/releases/2016/05/160519120708.htm",
+                @"https://www.sciencedaily.com/releases/2015/11/151123100917.htm"
+            });
+            List<string> urls3 = new List<string>(new string[] {
+                @"http://www.bbc.com/news/technology-36358517"
+            });
             Pdf pdf = new Pdf("test.pdf");
-            pdf.AddArticles(links, xPaths);
-          
-            if(pdf.Size > 10)
+
+            //List<string> secondXpath = new List<string>(new string[] { 
+            //    "//div[@class='head-no-print']/div[1]",
+            //    "//div[@class='head no-print']/div[last()]",
+            //    "//h1[@id='headLine']",
+            //    "//dl[@class='dl-horizontal dl-custom']/dd",
+            //    "//div[@class='photo-image']/img[1]",
+            //    "//div[@class='photo-image']/div[1]",
+            //    "//div[@class='photo-image']/div[2]/em",
+            //    "//div[@id='story_text']/p",
+            //    "//div[id='story_source']/p" });
+
+            List<string> thirdXpath = new List<string>(new string[] { 
+                "//h1[@class='story-body__h1']",
+                 });
+
+            pdf.AddArticles(urls3, thirdXpath);
+
+            if (pdf.Size > 10)
             {
                 throw new FileSizeException("File is too big!");
             }

@@ -15,17 +15,16 @@ namespace MornigPaper
         [STAThread]
         static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new MainForm());
             // Как завещал великий Ленин:
             Test.Test.RunTest();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+           
 
-            Application.Run(new TestForm("test.pdf"));
+            //Application.Run(new TestForm("wtfpdf.pdf"));
             // Как завещал великий Ленин:
-            Test.Test.RunTest();
+           
 
             //Application.Run(new MainForm());
             // Как завещал великий Ленин:

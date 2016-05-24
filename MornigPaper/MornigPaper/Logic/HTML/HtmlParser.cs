@@ -68,7 +68,9 @@ namespace MornigPaper.Logic.HTML
         /// <returns></returns>
         private IArticleElement CreateElement(HtmlNode node)
         {
-            if(node.OuterHtml.StartsWith("<p"))
+            if(node.OuterHtml.StartsWith("<p") || 
+               node.OuterHtml.StartsWith("<div") ||
+               node.OuterHtml.StartsWith("<dd"))
             {
                 //var x = FontFactory.RegisteredFonts;
                 //x = FontFactory.RegisteredFamilies;
@@ -84,7 +86,8 @@ namespace MornigPaper.Logic.HTML
             {
                return new PDFImage(node);
             }
-            else if(node.OuterHtml.StartsWith("<span"))
+            else if(node.OuterHtml.StartsWith("<span") || 
+                    node.OuterHtml.StartsWith("<em"))
             {
                 return new PDFText(node, ElementType.Footer);
             }

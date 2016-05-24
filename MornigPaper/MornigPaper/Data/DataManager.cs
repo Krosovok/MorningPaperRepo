@@ -88,6 +88,12 @@ namespace MornigPaper.Data
         /// </summary>
         public void Serialize()
         {
+            string folderPath = dataManagerPath.Substring(0, dataManagerPath.LastIndexOf('\\'));
+            if(!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
             XmlSerializer xs = new XmlSerializer(this.GetType());
             using (StreamWriter sw = new StreamWriter(dataManagerPath))
             {

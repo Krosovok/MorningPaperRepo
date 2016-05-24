@@ -84,6 +84,7 @@
     <Compile Include="Data\HTML\IHtmlElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
     <Compile Include="Exceptions\FileAccessException.cs" />
+    <Compile Include="Exceptions\InitNotFinishedException.cs" />
     <Compile Include="Exceptions\InvalidElementException.cs" />
     <Compile Include="Exceptions\MorningPaperException.cs" />
     <Compile Include="Exceptions\UrlNotLoadedException.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Logic\PDF\PDFText.cs" />
     <Compile Include="Logic\PDF\Pdf.cs" />
     <Compile Include="Logic\Search\WebPagesOpener.cs" />
+    <Compile Include="Logic\Worker.cs" />
     <Compile Include="Presentation\Controls\ButtonHost.cs" />
     <Compile Include="Presentation\Controls\ButtonHost.Designer.cs">
       <DependentUpon>ButtonHost.cs</DependentUpon>

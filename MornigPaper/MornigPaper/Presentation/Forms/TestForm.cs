@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Spire.Pdf;
 using Spire.PdfViewer;
 using Spire.PdfViewer.Forms;
+using System.Windows.Media;
 
 namespace MornigPaper.Presentation.Forms
 {
@@ -19,6 +20,7 @@ namespace MornigPaper.Presentation.Forms
         public TestForm(string pdfName)
         {
             InitializeComponent();
+            
             filePath = pdfName;
 
         }

@@ -14,6 +14,8 @@ using HtmlAgilityPack;
 using iTextSharp.text;
 using MornigPaper.Logic.HTML;
 using iTextSharp.text.pdf;
+using MornigPaper.Logic;
+using System.Threading;
 
 namespace MornigPaper.Test
 {
@@ -28,10 +30,10 @@ namespace MornigPaper.Test
         /// </summary>
         public static void RunTest()
         {
-            //RssParseTest();
+            //Pdf.test();
             //Test1();
             //RssParseTest();
-            DataManagerTest();
+            //DataManagerTest();
             TestMain();
             Test4();
         }
@@ -41,110 +43,99 @@ namespace MornigPaper.Test
             // Some code to inspect here.
         }
 
-        private static void RssParseTest()
-        {
-            //Pdf.test();
-            // Some code to inspect here.
-            Rss rss = new Rss("http://www.animespirit.ru/engine/rss.php");
-            List<string> keywords = (new string[] { "студент", "адвокат", "деревня", "мир" }).ToList();
-            RssParse rssParse = new RssParse(rss, keywords);
-            List<string> links = rssParse.Links;
-        }
-
-        private static void DataManagerTest()
-        {
-            Dictionary<string, List<string>> topics = new Dictionary<string, List<string>>();
-            List<string> firstTopic = new List<string>(new string[] {"website1", "website2", "website3" });
-            List<string> secondTopic = new List<string>(new string[] { "website4", "website5" });
-            List<string> thirdTopic = new List<string>(new string[] { "website6" });
-            topics.Add("first", firstTopic);
-            topics.Add("second", secondTopic);
-            topics.Add("third", thirdTopic);
-            Dictionary<string, List<string>> websiteXpath = new Dictionary<string, List<string>>();
-            List<string> firstXpath = new List<string>(new string[] { "wtf1", "wtf2", "wtf3" });
-            List<string> secondXpath = new List<string>(new string[] { "wtf" });
-            websiteXpath.Add("website1", firstXpath);
-            websiteXpath.Add("website2", secondXpath);
-            Dictionary<string, string> websiteRss = new Dictionary<string, string>();
-            websiteRss.Add("website1", "rss1");
-            websiteRss.Add("website2", "rss2");
-            websiteRss.Add("website3", "rss3");
-            LocalDataManager ldm = new LocalDataManager();
-            ldm.Topics = topics;
-            ldm.WebsiteXpath = websiteXpath;
-            ldm.WebsiteRss = websiteRss;
-            ldm.Serialize();
-            LocalDataManager ldmg = LocalDataManager.Initialize();
-        }
-
         private static void TestMain()
         {
-            //Dictionary<string, List<string>> topics = new Dictionary<string, List<string>>();
-            //List<string> firstTopic = new List<string>(new string[] { "cnet"});
-            //List<string> secondTopic = new List<string>(new string[] { "scienceDaily", "scienceMag" });
+            #region InitDB
+           // Dictionary<string, List<string>> topics = new Dictionary<string, List<string>>();
+           // List<string> firstTopic = new List<string>(new string[] { "cnet" });
+           // //List<string> secondTopic = new List<string>(new string[] { "scienceDaily", "scienceMag" });
 
-            //topics.Add("Apple", firstTopic);
-            //topics.Add("Microsoft", firstTopic);
-            //topics.Add("Google", firstTopic);
-            //topics.Add("Science & Space", secondTopic);
-            //topics.Add("Gaming", firstTopic);
+           // topics.Add("Apple", firstTopic);
+           // topics.Add("Microsoft", firstTopic);
+           // topics.Add("Google", firstTopic);
+           // //topics.Add("Science & Space", secondTopic);
+           // topics.Add("Gaming", firstTopic);
 
-            //Dictionary<string, List<string>> websiteXpath = new Dictionary<string, List<string>>();
-            //List<string> firstXpath = new List<string>(new string[] { "//div[@class='articleHead']/p[1] | " 
-            //    + "//div[@class='articleHead']/h1[1]",
-            //    "//span[@itemprop='image']/img[1]", 
-            //    "//figure[@section='shortcodeImage']/figcaption/span[1]/p", 
-            //    "//figure[@section='shortcodeImage']/figcaption/span[last()]",
-            //    "//div[@data-use-autolinker='true']/p"});
+           // Dictionary<string, List<string>> websiteXpath = new Dictionary<string, List<string>>();
+           // List<string> firstXpath = new List<string>(new string[] { 
+           //     "//div[@class='articleHead']/p[1]", 
+           //     "//div[@class='articleHead']/h1[1]",
+           //     "//span[@itemprop='image']/img[1]", 
+           //     "//figure[@section='shortcodeImage']/figcaption/span[1]/p", 
+           //     "//figure[@section='shortcodeImage']/figcaption/span[last()]",
+           //     "//div[@data-use-autolinker='true']/p"});
+            
 
-            //websiteXpath.Add("cnet", firstXpath);
+           // websiteXpath.Add("cnet", firstXpath);
 
-            //Dictionary<string, string> websiteRss = new Dictionary<string, string>();
-            //websiteRss.Add("cnet", "http://www.cnet.com/rss/news/");
-            //websiteRss.Add("scienceDaily", "https://rss.sciencedaily.com/top/science.xml");
-            //websiteRss.Add("scienceMag", "https://www.sciencemag.org/rss/news_current.xml");
+           // // Add xPaths!!!!!!!!!!!!
+           // //websiteXpath.Add("scienceDaily", secondXpath);
+           // //websiteXpath.Add("scienceMag", new List<string>());
 
-            //Dictionary<string, List<string>> topicKeywords = new Dictionary<string, List<string>>();
-            //List<string> apple = new List<string>(new string[] { "Apple", "iPhone", "iPad", "iTunes", "Mac" });
-            //List<string> micro = new List<string>(new string[] { "Mircrosoft", "Windows" });
-            //List<string> google = new List<string>(new string[] { "Google", "Android" });
-            //List<string> scienceSpace = new List<string>(new string[] { "NASA", "Mars", "shuttle", "Earth" });
-            //List<string> gaming = new List<string>(new string[] { "game", "E3", "PC", "computer" });
+           // Dictionary<string, string> websiteRss = new Dictionary<string, string>();
+           // websiteRss.Add("cnet", "http://www.cnet.com/rss/news/");
+           //// websiteRss.Add("scienceDaily", "https://rss.sciencedaily.com/top/science.xml");
+           // //websiteRss.Add("scienceMag", "https://www.sciencemag.org/rss/news_current.xml");
 
-            //topicKeywords.Add("Apple", apple);
-            //topicKeywords.Add("Microsoft", micro);
-            //topicKeywords.Add("Google", google);
-            //topicKeywords.Add("Science & Space", scienceSpace);
-            //topicKeywords.Add("Gaming", gaming);
+           // Dictionary<string, List<string>> topicKeywords = new Dictionary<string, List<string>>();
+           // List<string> apple = new List<string>(new string[] { "Apple", "iPhone", "iPad", "iTunes", "Mac" });
+           // List<string> micro = new List<string>(new string[] { "Mircrosoft", "Windows" });
+           // List<string> google = new List<string>(new string[] { "Google", "Android" });
+           // //List<string> scienceSpace = new List<string>(new string[] { "NASA", "Mars", "shuttle", "Earth" });
+           // List<string> gaming = new List<string>(new string[] { "game", "E3", "PC", "computer" });
 
-            //LocalDataManager ldm = new LocalDataManager();
-            //ldm.Topics = topics;
-            //ldm.WebsiteXpath = websiteXpath;
-            //ldm.WebsiteRss = websiteRss;
-            //ldm.TopicKeywords = topicKeywords;
-            //ldm.Serialize();
-            LocalDataManager ldm = LocalDataManager.Initialize();
-            //Pdf pdf = new Pdf("wtfpdf.pdf");
+           // topicKeywords.Add("Apple", apple);
+           // topicKeywords.Add("Microsoft", micro);
+           // topicKeywords.Add("Google", google);
+           // //topicKeywords.Add("Science & Space", scienceSpace);
+           // topicKeywords.Add("Gaming", gaming);
+
+           // LocalDataManager ldm = new LocalDataManager();
+           // ldm.Topics = topics;
+           // ldm.WebsiteXpath = websiteXpath;
+           // ldm.WebsiteRss = websiteRss;
+           // ldm.TopicKeywords = topicKeywords;
+           // ldm.Serialize();
+           #endregion
+
+            //Worker w = Worker.GetInstance();
+            //Thread.Sleep(5000);
+            //w.TopicArticles("Apple");
+            
+
+           // LocalDataManager ldm = LocalDataManager.Initialize();
+            //string fileName = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToShortTimeString().Replace(':', '.') + ".pdf";
+            //Pdf pdf = new Pdf(fileName);
+
             //foreach (KeyValuePair<string, List<string>> pair in ldm.Topics)
             //{
             //    foreach (string website in pair.Value)
             //    {
             //        Rss rss = new Rss(ldm.WebsiteRss[website]);
-            //        RssParse parse = new RssParse(rss, new List<string>(new string[] { "gameasasd", "ga", "gae", "gameasd", "gzfe", "gzxzme", "gafze", "adme", "ghame", "asdame", "gdfge" }));
-
-            //        foreach (string link in parse.Links)
-            //        {
-            //            pdf.AddArticle(link, ldm.WebsiteXpath[website]);
-            //        }
-
+            //        RssParse parse = new RssParse(rss, ldm.TopicKeywords[pair.Key]);
+             
+            //        pdf.AddArticles(parse.Links, ldm.WebsiteXpath[website]);
+                  
             //    }
             //}
             //pdf.Close();
+
+            //List<string> secondXpath = new List<string>(new string[] { 
+            //    "//div[@class='head no-print']/div[1]",
+            //    "//div[@class='head no-print']/div[last()]",
+            //    "//h1[@id='headLine']",
+            //    "//dl[@class='dl-horizontal dl-custom']/dd",
+            //    "//div[@class='photo-image']/img[1]",
+            //    "//div[@class='photo-image']/div[1]",
+            //    "//div[@class='photo-image']/div[2]/em",
+            //    "//div[@id='story_text']/p",
+            //    "//div[id='story_source']/p" });
         }
 
         private static void Test4()
         {
             new Form1().ShowDialog();
+
             // Some code to inspect here.
         }
     }
