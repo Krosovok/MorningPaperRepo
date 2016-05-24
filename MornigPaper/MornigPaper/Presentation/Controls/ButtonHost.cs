@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms.Integration;
+﻿using System.Collections.Generic;
+using System.Windows.Forms.Integration;
 using System.Windows.Media;
 
 namespace MornigPaper.Presentation.Controls
@@ -8,37 +9,37 @@ namespace MornigPaper.Presentation.Controls
         public ButtonHost()
         {
             InitializeComponent();
-            //this.Child = new RoundButton();
+            //this.Child = new RoundButtons();
         }
 
         /// <summary>
         /// Устанавливает дочерний элкмент.
-        /// Должен быть RoundButton.
+        /// Должен быть RoundButtons.
         /// </summary>
         public new IButtonStyleChanger Child
         {
-            get { return base.Child as RoundButton; }
-            set { base.Child = value as RoundButton; }
+            get { return base.Child as RoundButtons; }
+            set { base.Child = value as RoundButtons; }
         }
-        /// <summary>
-        /// Текст кнопки.
-        /// </summary>
-        public override string Text
-        {
-            get
-            {
-                if (Child == null)
-                    return string.Empty;
-                return Child.Text as string;
-            }
-            set
-            {
-                if (Child == null)
-                    return;
-                Child.Text = value;
-            }
+        ///// <summary>
+        ///// Текст кнопки.
+        ///// </summary>
+        //public override string Text
+        //{
+        //    get
+        //    {
+        //        if (Child == null)
+        //            return string.Empty;
+        //        return Child.Text as string;
+        //    }
+        //    set
+        //    {
+        //        if (Child == null)
+        //            return;
+        //        Child.Text = value;
+        //    }
 
-        }
+        //}
         /// <summary>
         /// Кисть, которая раскрашивает кнопку, когда над ней находится курсор мыши.
         /// </summary>
@@ -147,6 +148,24 @@ namespace MornigPaper.Presentation.Controls
         public void AddStyle()
         {
             Child.AddStyle();
+        }
+
+
+        public double ButtonHeight
+        {
+            get
+            {
+                return this.Child.ButtonHeight;
+            }
+            set
+            {
+               this.Child.ButtonHeight = value;
+            }
+        }
+
+        public void AddButtons(IEnumerable<string> buttonTexts)
+        {
+            this.Child.AddButtons(buttonTexts);
         }
     }
 }

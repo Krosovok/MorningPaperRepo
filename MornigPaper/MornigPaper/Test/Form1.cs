@@ -17,9 +17,11 @@ namespace MornigPaper.Test
         {
             InitializeComponent();
 
-            buttonHost1.Child = new Presentation.Controls.RoundButton();
-            buttonHost1.IsPressedBrush = new LinearGradientBrush(Colors.Gray, Colors.Green, 50.0);
-            buttonHost1.Text = "CHANGED";
+            buttonHost1.Child = new Presentation.Controls.RoundButtons();
+            //buttonHost1.IsPressedBrush = new LinearGradientBrush(Colors.Gray, Colors.Green, 50.0);
+            //buttonHost1.Text = "CHANGED";
+            buttonHost1.ButtonHeight = 50d;
+            buttonHost1.AddButtons(new string[] { "One", "Two", "Three", "Five", "E", "Pi", "sqrt100" });
             buttonHost1.AddStyle();
         }
     }

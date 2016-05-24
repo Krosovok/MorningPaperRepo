@@ -12,15 +12,15 @@ namespace MornigPaper.Presentation.Controls
     /// </summary>
     public interface IButtonStyleChanger
     {
-        /// <summary>
-        /// Текст кнопки.
-        /// </summary>
-        string Text
-        {
-            get;
-            set;
+        ///// <summary>
+        ///// Текст кнопки.
+        ///// </summary>
+        //string Text
+        //{
+        //    get;
+        //    set;
 
-        }
+        //}
         /// <summary>
         /// Кисть, которая раскрашивает кнопку, когда над ней находится курсор мыши.
         /// </summary>
@@ -58,6 +58,10 @@ namespace MornigPaper.Presentation.Controls
         /// Кисть для написания текста кнопки.
         /// </summary>
         Brush TextDefaultBrush { get; set; }
+        /// <summary>
+        /// Задаёт высоту кнопок в элементе управления.
+        /// </summary>
+        double ButtonHeight { get; set; }
 
         /// <summary>
         /// Завершает инициализацию элемента управления, устанавливая стиль.
@@ -65,5 +69,11 @@ namespace MornigPaper.Presentation.Controls
         /// и его дальнейшее изменение будет невозможным.
         /// </summary>
         void AddStyle();
+
+        /// <summary>
+        /// Добавление в элемент управления кнопки с надписью 
+        /// для каждой строки в последовательности.
+        /// </summary>
+        void AddButtons(IEnumerable<string> buttonTexts);
     }
 }

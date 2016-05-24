@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MornigPaper.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,10 @@ namespace MornigPaper.Presentation.Controls
     /// <summary>
     /// WPF элемент, представляющий собой округлую кнопку.
     /// </summary>
-    public partial class RoundButton : UserControl, IButtonStyleChanger
+    public partial class RoundButtons : UserControl, IButtonStyleChanger
     {
-        private Button basis;
+        //private Button basis;
+        private double buttonHeight;
 
         /// <summary>
         /// Создаёт экземпляр элемента управления с кнопкой. 
@@ -28,14 +30,15 @@ namespace MornigPaper.Presentation.Controls
         /// Для завершения инициализации нужно вызвать метод AddStyle(), который задаст стиль. 
         /// До его вызова можно установить все свойства, связанные со стилем.
         /// </summary>
-        public RoundButton()
+        public RoundButtons()
         {
             InitializeComponent();
-            this.gridDesu.Children.Add(basis = new Button()
-            {
-                Name = "MyButton",
-                Content = "MY P_I_N_K BUTTON!!!"
-            });
+            //this.gridDesu.Children.Add(basis = new Button()
+            //{
+            //    Name = "MyButton",
+            //    Content = "MY P_I_N_K BUTTON!!!"
+            //});
+            
 
             MouseOverBrush = new RadialGradientBrush(
                         Colors.Purple,
@@ -58,22 +61,22 @@ namespace MornigPaper.Presentation.Controls
             TextChangedBrush = new SolidColorBrush(Colors.Gold);
         }
 
-        public string Text
-        {
-            get
-            {
-                if (this.basis == null)
-                    throw new ClassNotConstructedException();
-                return this.basis.Content as string;
-            }
-            set
-            {
-                if (this.basis == null)
-                    throw new ClassNotConstructedException();
-                this.basis.Content = value;
-            }
+        //public string Text
+        //{
+        //    get
+        //    {
+        //        if (this.basis == null)
+        //            throw new ClassNotConstructedException();
+        //        return this.basis.Content as string;
+        //    }
+        //    set
+        //    {
+        //        if (this.basis == null)
+        //            throw new ClassNotConstructedException();
+        //        this.basis.Content = value;
+        //    }
 
-        }
+        //}
         public Brush MouseOverBrush
         {
             get;
@@ -230,5 +233,36 @@ namespace MornigPaper.Presentation.Controls
         //    this.gridDesu.Width     = this.Width; 
         //}
 
+
+
+        public void AddButtons(IEnumerable<string> buttonTexts)
+        {
+            foreach (string text in buttonTexts)
+            {
+                this.Buttons.Children.Add(new Button()
+                {
+                    Content = text,
+                    Name = text,
+                    //Width = this.Width,
+                    Height = buttonHeight
+                });
+            }
+        }
+
+        public double ButtonHeight
+        {
+            get
+            {
+                return buttonHeight;
+            }
+            set
+            {
+                buttonHeight = value;
+                foreach (Button elem in this.Buttons.Children.OfType<Button>())
+                {
+                    elem.Height = buttonHeight;
+                }
+            }
+        }
     }
 }
