@@ -12,6 +12,8 @@ namespace MornigPaper.Presentation.Controls
     /// </summary>
     public interface IButtonStyleChanger
     {
+        event ButtonClick ButtonClicked;
+
         ///// <summary>
         ///// Текст кнопки.
         ///// </summary>
@@ -76,4 +78,6 @@ namespace MornigPaper.Presentation.Controls
         /// </summary>
         void AddButtons(IEnumerable<string> buttonTexts);
     }
+
+    public delegate void ButtonClick(ButtonClickedEventArgs e);
 }

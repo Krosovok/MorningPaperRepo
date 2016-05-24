@@ -61,6 +61,8 @@ namespace MornigPaper.Presentation.Controls
             TextChangedBrush = new SolidColorBrush(Colors.Gold);
         }
 
+        public event ButtonClick ButtonClicked;
+
         //public string Text
         //{
         //    get
@@ -92,10 +94,40 @@ namespace MornigPaper.Presentation.Controls
         public double Radius { get; set; }
         public Brush TextChangedBrush { get; set; }
         public Brush TextDefaultBrush { get; set; }
+        public double ButtonHeight
+        {
+            get
+            {
+                return buttonHeight;
+            }
+            set
+            {
+                buttonHeight = value;
+                foreach (Button elem in this.Buttons.Children.OfType<Button>())
+                {
+                    elem.Height = buttonHeight;
+                }
+            }
+        }
 
         public void AddStyle()
         {
             this.gridDesu.Resources.Add(typeof(Button), GetButtonStyle());
+        }
+
+        public void AddButtons(IEnumerable<string> buttonTexts)
+        {
+            foreach (string text in buttonTexts)
+            {
+                Button b = new Button()
+                {
+                    Content = text,
+                    Name = text,
+                    Height = buttonHeight
+                };
+                b.Click += ButtonClickHandler;
+                this.Buttons.Children.Add(b);
+            }
         }
 
         /// <summary>
@@ -234,35 +266,19 @@ namespace MornigPaper.Presentation.Controls
         //}
 
 
-
-        public void AddButtons(IEnumerable<string> buttonTexts)
+        private void ButtonClickHandler(object sender, RoutedEventArgs e)
         {
-            foreach (string text in buttonTexts)
+            OnButtonClicked((sender as Button).Name);
+        }
+
+        private void OnButtonClicked(string data)
+        {
+            if (ButtonClicked != null)
             {
-                this.Buttons.Children.Add(new Button()
-                {
-                    Content = text,
-                    Name = text,
-                    //Width = this.Width,
-                    Height = buttonHeight
-                });
+                ButtonClicked(new ButtonClickedEventArgs(data));
             }
         }
 
-        public double ButtonHeight
-        {
-            get
-            {
-                return buttonHeight;
-            }
-            set
-            {
-                buttonHeight = value;
-                foreach (Button elem in this.Buttons.Children.OfType<Button>())
-                {
-                    elem.Height = buttonHeight;
-                }
-            }
-        }
+
     }
 }

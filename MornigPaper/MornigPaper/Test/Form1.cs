@@ -24,5 +24,10 @@ namespace MornigPaper.Test
             buttonHost1.AddButtons(new string[] { "One", "Two", "Three", "Five", "E", "Pi", "sqrt100" });
             buttonHost1.AddStyle();
         }
+
+        private void buttonHost1_ButtonClicked(Presentation.Controls.ButtonClickedEventArgs e)
+        {
+            MessageBox.Show(e.Data);
+        }
     }
 }

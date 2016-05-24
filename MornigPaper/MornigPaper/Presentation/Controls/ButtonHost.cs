@@ -12,6 +12,8 @@ namespace MornigPaper.Presentation.Controls
             //this.Child = new RoundButtons();
         }
 
+        public event ButtonClick ButtonClicked;
+
         /// <summary>
         /// Устанавливает дочерний элкмент.
         /// Должен быть RoundButtons.
@@ -19,7 +21,12 @@ namespace MornigPaper.Presentation.Controls
         public new IButtonStyleChanger Child
         {
             get { return base.Child as RoundButtons; }
-            set { base.Child = value as RoundButtons; }
+            set 
+            { 
+                base.Child = value as RoundButtons;
+                if (this.Child != null)
+                    this.Child.ButtonClicked += OnButtonClicked;
+            }
         }
         ///// <summary>
         ///// Текст кнопки.
@@ -150,7 +157,10 @@ namespace MornigPaper.Presentation.Controls
             Child.AddStyle();
         }
 
-
+        /// <summary>
+        /// Высота кнопок в элементе управления.
+        /// Ширина автоматичеки по размеру самого элемента.
+        /// </summary>
         public double ButtonHeight
         {
             get
@@ -163,9 +173,21 @@ namespace MornigPaper.Presentation.Controls
             }
         }
 
+        /// <summary>
+        /// Добавить несколько кнопок с указанными надписями.
+        /// </summary>
+        /// <param name="buttonTexts">Надписи для кнопок.</param>
         public void AddButtons(IEnumerable<string> buttonTexts)
         {
             this.Child.AddButtons(buttonTexts);
+        }
+
+        private void OnButtonClicked(ButtonClickedEventArgs e)
+        {
+            if (ButtonClicked != null)
+            {
+                ButtonClicked(e);
+            }
         }
     }
 }

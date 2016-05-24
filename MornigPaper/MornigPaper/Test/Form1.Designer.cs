@@ -37,6 +37,7 @@
             this.buttonHost1.Name = "buttonHost1";
             this.buttonHost1.Size = new System.Drawing.Size(199, 237);
             this.buttonHost1.TabIndex = 0;
+            this.buttonHost1.ButtonClicked += new MornigPaper.Presentation.Controls.ButtonClick(this.buttonHost1_ButtonClicked);
             this.buttonHost1.Child = null;
             // 
             // Form1
