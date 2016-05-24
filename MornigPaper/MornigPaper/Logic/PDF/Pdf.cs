@@ -13,6 +13,7 @@ using MornigPaper.Logic.HTML;
 using MornigPaper.Presentation.Forms;
 using MornigPaper.Exceptions;
 using System.Text.RegularExpressions;
+using MornigPaper.Data.PDF;
 
 
 namespace MornigPaper.Logic.PDF

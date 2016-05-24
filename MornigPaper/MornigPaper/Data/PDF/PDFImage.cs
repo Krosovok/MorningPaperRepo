@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using iTextSharp;
 
-namespace MornigPaper.Logic.PDF
+namespace MornigPaper.Data.PDF
 {
     /// <summary>
     /// Represents an image.

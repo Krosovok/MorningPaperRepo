@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MornigPaper.Exceptions;
 using MornigPaper.Properties;
+using MornigPaper.Data.PDF;
 
 namespace MornigPaper.Logic.HTML
 {

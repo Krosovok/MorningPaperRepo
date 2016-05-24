@@ -9,7 +9,7 @@ using iTextSharp.text;
 using MornigPaper.Data.HTML;
 using MornigPaper.Exceptions;
 
-namespace MornigPaper.Logic.PDF
+namespace MornigPaper.Data.PDF
 {
    
     /// <summary>
