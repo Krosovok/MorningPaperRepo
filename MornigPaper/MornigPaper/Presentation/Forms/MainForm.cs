@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PreviewHandlers;
-using BitMiracle.LibTiff;
+//using PreviewHandlers;
+//using BitMiracle.LibTiff;
 
 namespace MornigPaper.Presentation.Forms
 {

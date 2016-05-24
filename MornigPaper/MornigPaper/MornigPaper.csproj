@@ -77,6 +77,7 @@
     <Compile Include="Data\HTML\IArticleElement.cs" />
     <Compile Include="Data\HTML\IHtmlElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
+    <Compile Include="Exceptions\ClassNotConstructedException.cs" />
     <Compile Include="Exceptions\FileAccessException.cs" />
     <Compile Include="Exceptions\InitNotFinishedException.cs" />
     <Compile Include="Exceptions\InvalidCancelException.cs" />
@@ -96,14 +97,13 @@
     <Compile Include="Presentation\Controls\ButtonHost.Designer.cs">
       <DependentUpon>ButtonHost.cs</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Controls\ClassNotConstructedException.cs" />
+    <Compile Include="Presentation\Controls\ButtonClickedEventArgs.cs" />
     <Compile Include="Presentation\Controls\IButtonStyleChanger.cs" />
-    <Compile Include="Presentation\Controls\ImageTreeViewItem.cs" />
-    <Compile Include="Presentation\Controls\ImageTreeViewItem.Designer.cs">
-      <DependentUpon>ImageTreeViewItem.cs</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\Controls\RoundButton.xaml.cs">
       <DependentUpon>RoundButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Controls\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -159,6 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Presentation\Controls\RoundButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Controls\UserControl1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
