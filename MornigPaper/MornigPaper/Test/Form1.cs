@@ -50,7 +50,7 @@ namespace MornigPaper.Test
                 w.StopExecution();
                 MessageBox.Show("Canceled!");
             }
-            catch(InitNotFinishedException ex)
+            catch(MorningPaperException ex)
             {
                 MessageBox.Show(ex.Message);
             }

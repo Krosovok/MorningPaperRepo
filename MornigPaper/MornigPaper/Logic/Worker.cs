@@ -70,11 +70,15 @@ namespace MornigPaper.Logic
             {
                 t.Abort();
                 Loaded = false;
-                File.Delete(FileName);
+                //File.Delete(FileName);
+            }
+            else if(t.Name == "Init")
+            {
+                throw new InitNotFinishedException("Can't abort DB init.");
             }
             else
             {
-                throw new InitNotFinishedException("Can't abort DB init.");
+                throw new InvalidCancelException("Nothing to cancel.");
             }
         }
 
@@ -83,10 +87,12 @@ namespace MornigPaper.Logic
         /// </summary>
         /// <param name="topic"></param>
         private void DoWork(object topic)
-        {
-            this.FileName = DateTime.Now.ToShortDateString() + "_" 
-                + DateTime.Now.ToShortTimeString().Replace(':', '.') + ".pdf";
+        {  
+            Loaded = false;
+            this.FileName = DateTime.Now.ToShortDateString()/* + "_" 
+                + DateTime.Now.ToShortTimeString().Replace(':', '.')*/ + ".pdf";
             Pdf pdf = new Pdf(this.FileName);
+           
             foreach (string website in ldm.Topics[(string)topic])
             {
                 Rss rss = new Rss(ldm.WebsiteRss[website]);
@@ -94,8 +100,9 @@ namespace MornigPaper.Logic
 
                 pdf.AddArticles(parse.Links, ldm.WebsiteXpath[website]);
             }
-            pdf.Close();
             Loaded = true;
+            pdf.Close();
+          
         }
 
         private void InitializeDB()
