@@ -1,8 +1,21 @@
-﻿using System;
+﻿using MornigPaper.Data;
+using MornigPaper.Data.RSS;
+using MornigPaper.Logic.PDF;
+using MornigPaper.Logic.LocalDataStoring;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using HtmlAgilityPack;
+using iTextSharp.text;
+using MornigPaper.Logic.HTML;
+using iTextSharp.text.pdf;
+using MornigPaper.Logic;
+using System.Threading;
 
 namespace MornigPaper.Test
 {
@@ -15,31 +28,106 @@ namespace MornigPaper.Test
         /// <summary>
         /// Start some test code.
         /// </summary>
-        public static void Test()
+        public static void RunTest()
         {
-            Test1();
-            Test2();
-            Test3();
-            Test4();
+            //Pdf.test();
+            //Test1();
+            //RssParseTest();
+            //DataManagerTest();
+            TestMain();
+            //Test4();
         }
-
         private static void Test1()
         {
+            //Pdf.test();
             // Some code to inspect here.
         }
 
-        private static void Test2()
+        private static void TestMain()
         {
-            // Some code to inspect here.
-        }
+            #region InitDB
+            Dictionary<string, List<string>> topics = new Dictionary<string, List<string>>();
+            List<string> firstTopic = new List<string>(new string[] { "cnet", "bbcNews" });
+            //List<string> secondTopic = new List<string>(new string[] { "scienceDaily", "scienceMag" });
 
-        private static void Test3()
-        {
-            // Some code to inspect here.
+            topics.Add("Apple", firstTopic);
+            topics.Add("Microsoft", firstTopic);
+            topics.Add("Google", firstTopic);
+            topics.Add("Science", firstTopic);
+            //topics.Add("Gaming", firstTopic);
+
+            Dictionary<string, List<string>> websiteXpath = new Dictionary<string, List<string>>();
+            List<string> firstXpath = new List<string>(new string[] { 
+                "//div[@class='articleHead']/h1[1]", 
+                "//div[@class='articleHead']/p[1]",
+                "//span[@itemprop='image']/img[1]", 
+                "//figure[@section='shortcodeImage']/figcaption/span[1]/p", 
+                "//figure[@section='shortcodeImage']/figcaption/span[last()]",
+                "//div[@data-use-autolinker='true']/p"});
+            List<string> secondXpath = new List<string>(new string[] { 
+                "//h1[@class='story-body__h1']",
+                "//div[@class='byline']/span",
+                "//img[@class='js-image-replace']",
+                "//div[@class='story-body__inner']/p"
+                 });
+
+
+            websiteXpath.Add("cnet", firstXpath);
+            websiteXpath.Add("bbcNews", secondXpath);
+
+            // Add xPaths!!!!!!!!!!!!
+            //websiteXpath.Add("scienceDaily", secondXpath);
+            //websiteXpath.Add("scienceMag", new List<string>());
+
+            Dictionary<string, string> websiteRss = new Dictionary<string, string>();
+            websiteRss.Add("cnet", "http://www.cnet.com/rss/news/");
+            websiteRss.Add("bbcNews", "http://feeds.bbci.co.uk/news/technology/rss.xml?edition=uk");
+            
+
+            Dictionary<string, List<string>> topicKeywords = new Dictionary<string, List<string>>();
+            List<string> apple = new List<string>(new string[] { "Apple", "iPhone", "iPad", "iTunes", "Mac" });
+            List<string> micro = new List<string>(new string[] { "Mircrosoft", "Windows" });
+            List<string> google = new List<string>(new string[] { "Google", "Android" });
+            List<string> science = new List<string>(new string[] 
+            { 
+                "NASA", "Mars", "shuttle", "mobile", "technology", "progress" 
+            });
+            //List<string> gaming = new List<string>(new string[] 
+            //{ 
+            //    "game", "E3", "PC", "computer", "PS3", "console" 
+            //});
+
+            topicKeywords.Add("Apple", apple);
+            topicKeywords.Add("Microsoft", micro);
+            topicKeywords.Add("Google", google);
+            topicKeywords.Add("Science", science);
+            //topicKeywords.Add("Gaming", gaming);
+
+            LocalDataManager ldm = new LocalDataManager();
+            ldm.Topics = topics;
+            ldm.WebsiteXpath = websiteXpath;
+            ldm.WebsiteRss = websiteRss;
+            ldm.TopicKeywords = topicKeywords;
+            ldm.Serialize();
+           #endregion
+
+          
+            //List<string> secondXpath = new List<string>(new string[] { 
+            //    "//div[@class='head no-print']/div[1]",
+            //    "//div[@class='head no-print']/div[last()]",
+            //    "//h1[@id='headLine']",
+            //    "//dl[@class='dl-horizontal dl-custom']/dd",
+            //    "//div[@class='photo-image']/img[1]",
+            //    "//div[@class='photo-image']/div[1]",
+            //    "//div[@class='photo-image']/div[2]/em",
+            //    "//div[@id='story_text']/p",
+            //    "//div[id='story_source']/p" });
         }
 
         private static void Test4()
         {
+            new Form1().ShowDialog();
+
             // Some code to inspect here.
         }
     }

@@ -32,8 +32,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>Libraries\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>Libraries\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>Libraries\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>Libraries\itextsharp.xtra.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Spire.License">
+      <HintPath>Libraries\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf">
+      <HintPath>Libraries\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.PdfViewer.Forms">
+      <HintPath>Libraries\Spire.PdfViewer.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,15 +66,42 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DataManager.cs" />
     <Compile Include="Data\HTML\Article.cs" />
+    <Compile Include="Data\HTML\HtmlElement.cs" />
     <Compile Include="Data\HTML\IArticleElement.cs" />
+    <Compile Include="Data\HTML\IHtmlElement.cs" />
     <Compile Include="Data\RSS\Rss.cs" />
+    <Compile Include="Exceptions\ClassNotConstructedException.cs" />
+    <Compile Include="Exceptions\FileAccessException.cs" />
+    <Compile Include="Exceptions\InitNotFinishedException.cs" />
+    <Compile Include="Exceptions\InvalidCancelException.cs" />
+    <Compile Include="Exceptions\InvalidElementException.cs" />
+    <Compile Include="Exceptions\MorningPaperException.cs" />
+    <Compile Include="Exceptions\UrlNotLoadedException.cs" />
+    <Compile Include="Data\RSS\RssParse.cs" />
     <Compile Include="Logic\HTML\HtmlParser.cs" />
-    <Compile Include="Logic\LocalDataStoring\SomeClassToWorkWithStoredInformation_RENAME_.cs" />
-    <Compile Include="Logic\PDF\PdfWriter.cs" />
+    <Compile Include="Logic\LocalDataStoring\LocalDataManager.cs" />
+    <Compile Include="Exceptions\FileSizeException.cs" />
+    <Compile Include="Data\PDF\PDFImage.cs" />
+    <Compile Include="Data\PDF\PDFText.cs" />
+    <Compile Include="Logic\PDF\Pdf.cs" />
     <Compile Include="Logic\Search\WebPagesOpener.cs" />
+    <Compile Include="Logic\Worker.cs" />
+    <Compile Include="Presentation\Controls\ButtonHost.cs" />
+    <Compile Include="Presentation\Controls\ButtonHost.Designer.cs">
+      <DependentUpon>ButtonHost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Controls\ButtonClickedEventArgs.cs" />
+    <Compile Include="Presentation\Controls\IButtonStyleChanger.cs" />
+    <Compile Include="Presentation\Controls\RoundButton.xaml.cs">
+      <DependentUpon>RoundButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,7 +110,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Test\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Test\Test.cs" />
+    <EmbeddedResource Include="Presentation\Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -69,6 +129,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Test\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -83,7 +146,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Presentation\Controls\" />
+    <Page Include="Presentation\Controls\RoundButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fonts\" />
+    <Folder Include="Libraries\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
