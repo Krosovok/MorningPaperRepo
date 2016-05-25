@@ -16,25 +16,76 @@ namespace MornigPaper.Logic
     class Worker
     {
         private static Worker theOneWhoIsTheOne;
-        private LocalDataManager ldm;
-
         
-
+       
         /// <summary>
         /// A thread, where DB initialization or PDF generation.
         /// </summary>
         Thread t;
 
+        bool loaded;
+        bool init;
+        Pdf pdf;
+
+        public event EventHandler<EventArgs> PDFLoaded;
+        public event EventHandler<EventArgs> DBInitialized;
+
         private Worker()
         {
             Loaded = false;
+            Initialized = false;
             t = new Thread(InitializeDB);
             t.Name = "Init";
             t.Start();
         }
 
         public string FileName { get; private set; }
-        public bool Loaded { get; private set; } 
+        public bool Loaded 
+        { 
+            get
+            {
+                return loaded;
+            }
+            private set
+            {
+                loaded = value;
+                if (loaded)
+                {
+                    if(PDFLoaded != null)
+                    {
+                        PDFLoaded(this, new EventArgs());
+                    }
+                }
+                else
+                {
+                    if(t != null && !t.IsAlive)
+                    {
+                        this.pdf.Close();
+                    }
+                }
+                    
+            }
+        }
+        public bool Initialized 
+        { 
+            get
+            {
+                return init;
+            }
+            private set
+            {
+                init = value;
+                if (init)
+                {
+                    if (DBInitialized != null)
+                    {
+                        DBInitialized(this, new EventArgs());
+                    }
+                }
+            }
+        }
+
+        public LocalDataManager LDM { get; private set; }
 
         /// <summary>
         /// Begs TheOneWhoIsTheOne to do His magic.
@@ -70,7 +121,7 @@ namespace MornigPaper.Logic
             {
                 t.Abort();
                 Loaded = false;
-                //File.Delete(FileName);
+                File.Delete(FileName);
             }
             else if(t.Name == "Init")
             {
@@ -91,23 +142,25 @@ namespace MornigPaper.Logic
             Loaded = false;
             this.FileName = DateTime.Now.ToShortDateString()/* + "_" 
                 + DateTime.Now.ToShortTimeString().Replace(':', '.')*/ + ".pdf";
-            Pdf pdf = new Pdf(this.FileName);
-           
-            foreach (string website in ldm.Topics[(string)topic])
-            {
-                Rss rss = new Rss(ldm.WebsiteRss[website]);
-                RssParse parse = new RssParse(rss, ldm.TopicKeywords[(string)topic]);
+            pdf = new Pdf(this.FileName);
 
-                pdf.AddArticles(parse.Links, ldm.WebsiteXpath[website]);
+            foreach (string website in LDM.Topics[(string)topic])
+            {
+                Rss rss = new Rss(LDM.WebsiteRss[website]);
+                RssParse parse = new RssParse(rss, LDM.TopicKeywords[(string)topic]);
+
+                pdf.AddArticles(parse.Links, LDM.WebsiteXpath[website]);
             }
-            Loaded = true;
             pdf.Close();
+            Loaded = true;
           
         }
 
         private void InitializeDB()
         {
-            ldm = LocalDataManager.Initialize();
+            LDM = LocalDataManager.Initialize();
+            Initialized = true;
         }
+
     }
 }

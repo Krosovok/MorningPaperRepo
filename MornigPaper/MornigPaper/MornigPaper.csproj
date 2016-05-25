@@ -102,9 +102,6 @@
     <Compile Include="Presentation\Controls\RoundButton.xaml.cs">
       <DependentUpon>RoundButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Controls\UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,9 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Presentation\Controls\RoundButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presentation\Controls\UserControl1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

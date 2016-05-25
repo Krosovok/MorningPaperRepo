@@ -60,10 +60,10 @@ namespace MornigPaper.Logic.PDF
                 {
                     Regex regex = new Regex(@"/Type\s*/Page[^s]");
                     MatchCollection matches = regex.Matches(sr.ReadToEnd());
-
+                    doc.Open();
                     return matches.Count;
                 }
-                doc.Open();
+                
             }
             
         }

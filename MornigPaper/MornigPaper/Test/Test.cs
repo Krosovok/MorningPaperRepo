@@ -35,7 +35,7 @@ namespace MornigPaper.Test
             //RssParseTest();
             //DataManagerTest();
             //TestMain();
-            Test4();
+            //Test4();
         }
         private static void Test1()
         {
