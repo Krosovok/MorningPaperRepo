@@ -17,14 +17,19 @@ namespace MornigPaper.Logic
     {
         private static Master theOneWhoIsTheOne;
         Pdf pdf;
-       
+        
         /// <summary>
         /// A thread, where DB initialization or PDF generation.
         /// </summary>
         Thread t;
 
         bool loaded;
-        bool init;        
+        bool init;
+
+        public event Action<int> LoadStarted;
+        public event Action ArticleAdded;
+        public event Action PDFCreated;
+        public event Action DBInitialized;
 
         private Master()
         {
@@ -34,9 +39,6 @@ namespace MornigPaper.Logic
             t.Name = "Init";
             t.Start();
         }
-
-        public event Action PDFCreated;
-        public event Action DBInitialized;
 
         public string FileName { get; private set; }
         public bool Loaded 
@@ -92,7 +94,7 @@ namespace MornigPaper.Logic
         /// <returns></returns>
         static public Master GetInstance()
         {
-            return theOneWhoIsTheOne ?? new Master();
+            return theOneWhoIsTheOne ?? (theOneWhoIsTheOne = new Master());
         }
 
         /// <summary>
@@ -120,7 +122,7 @@ namespace MornigPaper.Logic
             {
                 t.Abort();
                 Loaded = false;
-                File.Delete(FileName);
+                //File.Delete(FileName);
             }
             else if(t.Name == "Init")
             {
@@ -139,9 +141,21 @@ namespace MornigPaper.Logic
         private void DoWork(object topic)
         {  
             Loaded = false;
-            this.FileName = DateTime.Now.ToShortDateString() + "_" 
-                + DateTime.Now.ToShortTimeString().Replace(':', '.') + ".pdf";
+            this.FileName = DateTime.Now.ToShortDateString()/* + "_" 
+                + DateTime.Now.ToShortTimeString().Replace(':', '.')*/ + ".pdf";
+
+            try
+            {
             pdf = new Pdf(this.FileName);
+                pdf.ArticleAdded += OnArticleAdded;
+
+                int links = LDM.Topics[(string)topic]
+                    .SelectMany(site =>
+                    new RssParse(
+                        new Rss(LDM.WebsiteRss[site]),
+                        LDM.TopicKeywords[(string)topic]).Links)
+                        .Count();
+                OnLoadStarted(links);
 
             foreach (string website in LDM.Topics[(string)topic])
             {
@@ -150,7 +164,13 @@ namespace MornigPaper.Logic
 
                 pdf.AddArticles(parse.Links, LDM.WebsiteXpath[website]);
             }
+            
+            }
+            finally
+            {
             pdf.Close();
+            }
+            
             Loaded = true;
           
         }
@@ -159,6 +179,22 @@ namespace MornigPaper.Logic
         {
             LDM = LocalDataManager.Initialize();
             Initialized = true;
+        }
+
+        private void OnLoadStarted(int linksToProcess)
+        {
+            if (LoadStarted != null)
+            {
+                LoadStarted(linksToProcess);
+            }
+        }
+
+        private void OnArticleAdded()
+        {
+            if (ArticleAdded != null)
+            {
+                ArticleAdded();
+            }
         }
 
     }

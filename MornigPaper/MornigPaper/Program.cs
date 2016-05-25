@@ -18,7 +18,7 @@ namespace MornigPaper
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            //Test.Test.RunTest();
+            Test.Test.RunTest();
             Application.Run(new MainForm());
         }
     }
