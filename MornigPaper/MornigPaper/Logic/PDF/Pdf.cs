@@ -34,10 +34,16 @@ namespace MornigPaper.Logic.PDF
         /// <param name="pdfPath">Path of pdf file.</param>
         public Pdf(string pdfPath)
         {
+            pdfPath = "PDF/" + pdfPath;
             FontFactory.RegisterDirectory("Fonts");
             doc = new Document();
             try
             {
+                if(!Directory.Exists("PDF"))
+                {
+                    Directory.CreateDirectory("PDF");
+                }
+
                 fs = new FileStream(pdfPath, FileMode.Create);
             }
             catch(IOException)
@@ -60,16 +66,21 @@ namespace MornigPaper.Logic.PDF
                 {
                     Regex regex = new Regex(@"/Type\s*/Page[^s]");
                     MatchCollection matches = regex.Matches(sr.ReadToEnd());
-                    doc.Open();
+                    
                     return matches.Count;
-                }
-                
+                }               
             }
-            
         }
 
         public void AddArticles(List<string> links, List<string> xPaths)
         {
+            if(links.Count == 0)
+            {
+                //this.AddToPdf(new PDFText("Nothing was found, try another topic.", 
+                //    ElementType.Header, Allignment.Center));
+                return;
+            }
+
             links.ForEach(l => this.AddArticle(l, xPaths));
         }
 
@@ -81,9 +92,18 @@ namespace MornigPaper.Logic.PDF
         void AddArticle(string url, List<string> xPaths)
         {
             HtmlParser hParser = new HtmlParser(url);
-            AddToPdf(hParser.GetElements(xPaths));
-            AddToPdf(new PDFText("THE END", ElementType.Paragraph, Allignment.Center));
-            AddToPdf(PDFText.NewLine);
+            Article a = hParser.GetElements(xPaths);
+            
+            if(a.Count > 3)
+            {
+                AddToPdf(a);
+                AddToPdf(new PDFText("THE END", ElementType.Paragraph, Allignment.Center));
+                for (int i = 0; i < 5; i++)
+                {
+                    AddToPdf(PDFText.NewLine);
+                } 
+            }
+            
            
 
         }
@@ -141,17 +161,9 @@ namespace MornigPaper.Logic.PDF
 
         public static void test()
         {
-            HtmlWeb w = new HtmlWeb();
-            HtmlDocument doc = w.Load(@"http://www.bbc.com/news/technology-36358517");
-            var node = doc.DocumentNode.Descendants()
-                .Where(n => n.Attributes["class"] != null && n.Attributes["class"].Value == "story-body__h1");
-
-            List<string> urls2 = new List<string>(new string[] {
-                @"https://www.sciencedaily.com/releases/2016/05/160519120708.htm",
-                @"https://www.sciencedaily.com/releases/2015/11/151123100917.htm"
-            });
             List<string> urls3 = new List<string>(new string[] {
-                @"http://www.bbc.com/news/technology-36358517"
+                @"http://www.bbc.com/news/technology-36358517",
+                @"http://www.bbc.com/news/technology-36376962"
             });
             Pdf pdf = new Pdf("test.pdf");
 
@@ -168,6 +180,9 @@ namespace MornigPaper.Logic.PDF
 
             List<string> thirdXpath = new List<string>(new string[] { 
                 "//h1[@class='story-body__h1']",
+                "//div[@class='byline']/span",
+                "//img[@class='js-image-replace']",
+                "//div[@class='story-body__inner']/p"
                  });
 
             pdf.AddArticles(urls3, thirdXpath);

@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace MornigPaper.Logic
 {
-    class Worker
+    class Master
     {
-        private static Worker theOneWhoIsTheOne;
-        
+        private static Master theOneWhoIsTheOne;
+        Pdf pdf;
        
         /// <summary>
         /// A thread, where DB initialization or PDF generation.
@@ -24,20 +24,19 @@ namespace MornigPaper.Logic
         Thread t;
 
         bool loaded;
-        bool init;
-        Pdf pdf;
+        bool init;        
 
-        public event EventHandler<EventArgs> PDFLoaded;
-        public event EventHandler<EventArgs> DBInitialized;
-
-        private Worker()
+        private Master()
         {
-            Loaded = false;
-            Initialized = false;
+            //Loaded = false;
+            //Initialized = false;
             t = new Thread(InitializeDB);
             t.Name = "Init";
             t.Start();
         }
+
+        public event Action PDFCreated;
+        public event Action DBInitialized;
 
         public string FileName { get; private set; }
         public bool Loaded 
@@ -51,9 +50,9 @@ namespace MornigPaper.Logic
                 loaded = value;
                 if (loaded)
                 {
-                    if(PDFLoaded != null)
+                    if(PDFCreated != null)
                     {
-                        PDFLoaded(this, new EventArgs());
+                        PDFCreated();
                     }
                 }
                 else
@@ -79,7 +78,7 @@ namespace MornigPaper.Logic
                 {
                     if (DBInitialized != null)
                     {
-                        DBInitialized(this, new EventArgs());
+                        DBInitialized();
                     }
                 }
             }
@@ -91,9 +90,9 @@ namespace MornigPaper.Logic
         /// Begs TheOneWhoIsTheOne to do His magic.
         /// </summary>
         /// <returns></returns>
-        static public Worker GetInstance()
+        static public Master GetInstance()
         {
-            return theOneWhoIsTheOne ?? new Worker();
+            return theOneWhoIsTheOne ?? new Master();
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace MornigPaper.Logic
         {
             if(t.IsAlive)
             {
-                throw new InitNotFinishedException("Init not finished");
+                throw new InitNotFinishedException("Article is still loading.");
             }           
 
             t = new Thread(DoWork);
@@ -140,8 +139,8 @@ namespace MornigPaper.Logic
         private void DoWork(object topic)
         {  
             Loaded = false;
-            this.FileName = DateTime.Now.ToShortDateString()/* + "_" 
-                + DateTime.Now.ToShortTimeString().Replace(':', '.')*/ + ".pdf";
+            this.FileName = DateTime.Now.ToShortDateString() + "_" 
+                + DateTime.Now.ToShortTimeString().Replace(':', '.') + ".pdf";
             pdf = new Pdf(this.FileName);
 
             foreach (string website in LDM.Topics[(string)topic])

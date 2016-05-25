@@ -34,7 +34,7 @@ namespace MornigPaper.Test
             //Test1();
             //RssParseTest();
             //DataManagerTest();
-            //TestMain();
+            TestMain();
             //Test4();
         }
         private static void Test1()
@@ -47,14 +47,14 @@ namespace MornigPaper.Test
         {
             #region InitDB
             Dictionary<string, List<string>> topics = new Dictionary<string, List<string>>();
-            List<string> firstTopic = new List<string>(new string[] { "cnet" });
+            List<string> firstTopic = new List<string>(new string[] { "cnet", "bbcNews" });
             //List<string> secondTopic = new List<string>(new string[] { "scienceDaily", "scienceMag" });
 
             topics.Add("Apple", firstTopic);
             topics.Add("Microsoft", firstTopic);
             topics.Add("Google", firstTopic);
-            //topics.Add("Science & Space", secondTopic);
-            topics.Add("Gaming", firstTopic);
+            topics.Add("Science", firstTopic);
+            //topics.Add("Gaming", firstTopic);
 
             Dictionary<string, List<string>> websiteXpath = new Dictionary<string, List<string>>();
             List<string> firstXpath = new List<string>(new string[] { 
@@ -64,9 +64,16 @@ namespace MornigPaper.Test
                 "//figure[@section='shortcodeImage']/figcaption/span[1]/p", 
                 "//figure[@section='shortcodeImage']/figcaption/span[last()]",
                 "//div[@data-use-autolinker='true']/p"});
+            List<string> secondXpath = new List<string>(new string[] { 
+                "//h1[@class='story-body__h1']",
+                "//div[@class='byline']/span",
+                "//img[@class='js-image-replace']",
+                "//div[@class='story-body__inner']/p"
+                 });
 
 
             websiteXpath.Add("cnet", firstXpath);
+            websiteXpath.Add("bbcNews", secondXpath);
 
             // Add xPaths!!!!!!!!!!!!
             //websiteXpath.Add("scienceDaily", secondXpath);
@@ -74,21 +81,27 @@ namespace MornigPaper.Test
 
             Dictionary<string, string> websiteRss = new Dictionary<string, string>();
             websiteRss.Add("cnet", "http://www.cnet.com/rss/news/");
-            // websiteRss.Add("scienceDaily", "https://rss.sciencedaily.com/top/science.xml");
-            //websiteRss.Add("scienceMag", "https://www.sciencemag.org/rss/news_current.xml");
+            websiteRss.Add("bbcNews", "http://feeds.bbci.co.uk/news/technology/rss.xml?edition=uk");
+            
 
             Dictionary<string, List<string>> topicKeywords = new Dictionary<string, List<string>>();
             List<string> apple = new List<string>(new string[] { "Apple", "iPhone", "iPad", "iTunes", "Mac" });
             List<string> micro = new List<string>(new string[] { "Mircrosoft", "Windows" });
             List<string> google = new List<string>(new string[] { "Google", "Android" });
-            //List<string> scienceSpace = new List<string>(new string[] { "NASA", "Mars", "shuttle", "Earth" });
-            List<string> gaming = new List<string>(new string[] { "game", "E3", "PC", "computer" });
+            List<string> science = new List<string>(new string[] 
+            { 
+                "NASA", "Mars", "shuttle", "mobile", "technology", "progress" 
+            });
+            //List<string> gaming = new List<string>(new string[] 
+            //{ 
+            //    "game", "E3", "PC", "computer", "PS3", "console" 
+            //});
 
             topicKeywords.Add("Apple", apple);
             topicKeywords.Add("Microsoft", micro);
             topicKeywords.Add("Google", google);
-           // topicKeywords.Add("Science & Space", scienceSpace);
-            topicKeywords.Add("Gaming", gaming);
+            topicKeywords.Add("Science", science);
+            //topicKeywords.Add("Gaming", gaming);
 
             LocalDataManager ldm = new LocalDataManager();
             ldm.Topics = topics;

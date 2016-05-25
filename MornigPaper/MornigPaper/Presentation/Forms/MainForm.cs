@@ -20,12 +20,11 @@ namespace MornigPaper.Presentation.Forms
     /// </summary>
     public partial class MainForm : Form
     {
-        Worker w;
+        Master w;
         public MainForm()
         {
             InitializeComponent();
-            w = Worker.GetInstance();
-            InitButtons(); 
+            InitButtons();
         }
 
         private void InitButtons()
@@ -33,21 +32,21 @@ namespace MornigPaper.Presentation.Forms
             this.buttonHost1.Child = new RoundButtons();
             this.buttonHost1.ButtonHeight = 40d;
             this.buttonHost1.BackColor = this.BackColor;
+
             this.buttonHost1.ButtonClicked += buttonHost1_ButtonClicked;
-            this.w.PDFLoaded += w_PDFLoaded;
-            this.w.DBInitialized += w_DBInitialized;
+
             this.buttonHost1.AddStyle();
-            
+
         }
 
-        private void w_DBInitialized(object sender, EventArgs e)
+        private void w_DBInitialized()
         {
             buttonHost1.Invoke(new CustomDel(AddButtons));
         }
 
-        private void w_PDFLoaded(object sender, EventArgs e)
+        private void w_PDFCreated()
         {
-           pdfViewer1.Invoke(new CustomDel(UpdatePDFViewer));
+            pdfViewer1.Invoke(new CustomDel(UpdatePDFViewer));
         }
 
         private void buttonHost1_ButtonClicked(ButtonClickedEventArgs e)
@@ -56,26 +55,37 @@ namespace MornigPaper.Presentation.Forms
             {
                 w.TopicArticles(e.Data);
             }
-            catch(InitNotFinishedException ex)
+            catch (InitNotFinishedException ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
-        
+
 
         private void UpdatePDFViewer()
         {
-            pdfViewer1.LoadFromFile(w.FileName);
+            pdfViewer1.LoadFromFile("PDF/" + w.FileName);
             pdfViewer1.Show();
         }
 
         private void AddButtons()
         {
             this.buttonHost1.AddButtons(w.LDM.Topics.Keys);
-            this.buttonHost1.Height = (int)this.buttonHost1.ButtonHeight * w.LDM.Topics.Keys.Count;            
-        } 
-    }
+            //this.buttonHost1.Height = (int)this.buttonHost1.ButtonHeight * w.LDM.Topics.Keys.Count;            
+        }
 
+        private void buttonHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
+        {
+
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            w = Master.GetInstance();
+            this.w.PDFCreated += w_PDFCreated;
+            this.w.DBInitialized += w_DBInitialized;
+        }
+    }
     delegate void CustomDel();
 }

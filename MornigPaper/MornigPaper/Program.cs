@@ -17,11 +17,9 @@ namespace MornigPaper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
+            //Test.Test.RunTest();
             Application.Run(new MainForm());
-            // Как завещал великий Ленин:
-
-            Test.Test.RunTest();
-
         }
     }
 }

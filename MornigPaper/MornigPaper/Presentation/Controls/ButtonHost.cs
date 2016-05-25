@@ -20,7 +20,7 @@ namespace MornigPaper.Presentation.Controls
         /// </summary>
         public new IButtonStyleChanger Child
         {
-            get { return base.Child as RoundButtons; }
+            get { return base.Child as RoundButtons ?? new RoundButtons(); }
             set 
             { 
                 base.Child = value as RoundButtons;

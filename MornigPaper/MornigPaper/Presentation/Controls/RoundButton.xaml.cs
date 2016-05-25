@@ -122,7 +122,7 @@ namespace MornigPaper.Presentation.Controls
                 Button b = new Button()
                 {
                     Content = text,
-                    Name = text,
+                    //Name = text,
                     Height = buttonHeight
                 };
                 b.Click += ButtonClickHandler;
@@ -268,7 +268,7 @@ namespace MornigPaper.Presentation.Controls
 
         private void ButtonClickHandler(object sender, RoutedEventArgs e)
         {
-            OnButtonClicked((sender as Button).Name);
+            OnButtonClicked((sender as Button).Content as string);
         }
 
         private void OnButtonClicked(string data)
