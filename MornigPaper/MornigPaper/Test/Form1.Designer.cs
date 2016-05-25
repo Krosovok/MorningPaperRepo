@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.buttonHost1 = new MornigPaper.Presentation.Controls.ButtonHost();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // buttonHost1
@@ -40,11 +41,22 @@
             this.buttonHost1.ButtonClicked += new MornigPaper.Presentation.Controls.ButtonClick(this.buttonHost1_ButtonClicked);
             this.buttonHost1.Child = null;
             // 
+            // downloadProgressBar
+            // 
+            this.progressBar1.ForeColor = System.Drawing.Color.HotPink;
+            this.progressBar1.Location = new System.Drawing.Point(238, 106);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(225, 23);
+            this.progressBar1.Step = 1;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(475, 261);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.buttonHost1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -55,6 +67,7 @@
         #endregion
 
         private Presentation.Controls.ButtonHost buttonHost1;
+        private System.Windows.Forms.ProgressBar progressBar1;
 
 
 

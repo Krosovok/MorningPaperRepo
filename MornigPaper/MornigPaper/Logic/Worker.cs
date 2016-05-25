@@ -27,8 +27,10 @@ namespace MornigPaper.Logic
         bool init;
         Pdf pdf;
 
-        public event EventHandler<EventArgs> PDFLoaded;
-        public event EventHandler<EventArgs> DBInitialized;
+        public event Action<int> LoadStarted;
+        public event Action ArticleAdded;
+        public event Action PDFLoaded;
+        public event Action DBInitialized;
 
         private Worker()
         {
@@ -53,7 +55,7 @@ namespace MornigPaper.Logic
                 {
                     if(PDFLoaded != null)
                     {
-                        PDFLoaded(this, new EventArgs());
+                        PDFLoaded();
                     }
                 }
                 else
@@ -79,7 +81,7 @@ namespace MornigPaper.Logic
                 {
                     if (DBInitialized != null)
                     {
-                        DBInitialized(this, new EventArgs());
+                        DBInitialized();
                     }
                 }
             }
@@ -93,7 +95,7 @@ namespace MornigPaper.Logic
         /// <returns></returns>
         static public Worker GetInstance()
         {
-            return theOneWhoIsTheOne ?? new Worker();
+            return theOneWhoIsTheOne ?? (theOneWhoIsTheOne = new Worker());
         }
 
         /// <summary>
@@ -121,7 +123,7 @@ namespace MornigPaper.Logic
             {
                 t.Abort();
                 Loaded = false;
-                File.Delete(FileName);
+                //File.Delete(FileName);
             }
             else if(t.Name == "Init")
             {
@@ -142,16 +144,34 @@ namespace MornigPaper.Logic
             Loaded = false;
             this.FileName = DateTime.Now.ToShortDateString()/* + "_" 
                 + DateTime.Now.ToShortTimeString().Replace(':', '.')*/ + ".pdf";
-            pdf = new Pdf(this.FileName);
 
-            foreach (string website in LDM.Topics[(string)topic])
+            try
             {
-                Rss rss = new Rss(LDM.WebsiteRss[website]);
-                RssParse parse = new RssParse(rss, LDM.TopicKeywords[(string)topic]);
+                pdf = new Pdf(this.FileName);
+                pdf.ArticleAdded += OnArticleAdded;
 
-                pdf.AddArticles(parse.Links, LDM.WebsiteXpath[website]);
+                int links = LDM.Topics[(string)topic]
+                    .SelectMany(site =>
+                    new RssParse(
+                        new Rss(LDM.WebsiteRss[site]),
+                        LDM.TopicKeywords[(string)topic]).Links)
+                        .Count();
+                OnLoadStarted(links);
+
+                foreach (string website in LDM.Topics[(string)topic])
+                {
+                    Rss rss = new Rss(LDM.WebsiteRss[website]);
+                    RssParse parse = new RssParse(rss, LDM.TopicKeywords[(string)topic]);
+
+                    pdf.AddArticles(parse.Links, LDM.WebsiteXpath[website]);
+                }
+            
             }
-            pdf.Close();
+            finally
+            {
+                pdf.Close();
+            }
+            
             Loaded = true;
           
         }
@@ -161,6 +181,23 @@ namespace MornigPaper.Logic
             LDM = LocalDataManager.Initialize();
             Initialized = true;
         }
+
+        private void OnLoadStarted(int linksToProcess)
+        {
+            if (LoadStarted != null)
+            {
+                LoadStarted(linksToProcess);
+            }
+        }
+
+        private void OnArticleAdded()
+        {
+            if (ArticleAdded != null)
+            {
+                ArticleAdded();
+            }
+        }
+
 
     }
 }

@@ -22,11 +22,13 @@ namespace MornigPaper.Test
             buttonHost1.ButtonHeight = 50d;
             buttonHost1.AddButtons(new string[] { "One", "Two", "Three", "Five", "E", "Pi", "sqrt100" });
             buttonHost1.AddStyle();
+            progressBar1.Maximum = 10;
         }
 
         private void buttonHost1_ButtonClicked(Presentation.Controls.ButtonClickedEventArgs e)
         {
             MessageBox.Show(e.Data);
+            progressBar1.PerformStep();
         }
     }
 }

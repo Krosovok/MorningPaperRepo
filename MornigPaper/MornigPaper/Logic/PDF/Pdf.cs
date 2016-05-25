@@ -50,6 +50,8 @@ namespace MornigPaper.Logic.PDF
             doc.Open();
         }
 
+        public event Action ArticleAdded;
+
         public int Size 
         {
             
@@ -84,8 +86,8 @@ namespace MornigPaper.Logic.PDF
             AddToPdf(hParser.GetElements(xPaths));
             AddToPdf(new PDFText("THE END", ElementType.Paragraph, Allignment.Center));
             AddToPdf(PDFText.NewLine);
-           
 
+            OnArticleAdded();
         }
 
         /// <summary>
@@ -93,6 +95,7 @@ namespace MornigPaper.Logic.PDF
         /// </summary>
         public void Close()
         {
+            doc.Add(new Chunk(Environment.NewLine));
             doc.Close();
             fs.Close();
         }
@@ -180,7 +183,13 @@ namespace MornigPaper.Logic.PDF
             pdf.Close();
         }
 
-        
+        private void OnArticleAdded()
+        {
+            if (ArticleAdded != null)
+            {
+                ArticleAdded();
+            }
+        }
     }
 
 }
